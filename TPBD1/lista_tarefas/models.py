@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import BaseUserManager
+from django.contrib.auth.hashers import make_password
 
 # Create your models here.
 
@@ -37,6 +39,24 @@ class Tarefas(models.Model):
         managed = False
         db_table = 'Tarefas'
 
+class MeuUsuarioManager(BaseUserManager):
+    def create_user(self, nome_usuario, senha=None, email='', nome='', telefone=''):
+        if not nome_usuario:
+            raise ValueError('O nome de usuário deve ser definido')
+
+        if not email:
+            raise ValueError('O email deve ser definido')
+
+        if not nome:
+            raise ValueError('O nome deve ser definido')
+
+        if not telefone:
+            raise ValueError('O telefone deve ser definido')
+
+        user = self.model(nome_usuario=nome_usuario, email=email, nome=nome, telefone=telefone)
+        user.senha = make_password(senha)
+        user.save(using=self._db)
+        return user
 
 class Usuario(models.Model):
     nome_usuario = models.CharField(primary_key=True, max_length=20)
@@ -44,6 +64,14 @@ class Usuario(models.Model):
     nome = models.CharField(max_length=60)
     telefone = models.IntegerField()
     email = models.CharField(max_length=60)
+
+    objects = MeuUsuarioManager()
+
+    USERNAME_FIELD = 'nome_usuario'
+    REQUIRED_FIELDS = ['email', 'nome','telefone']
+
+    def __str__(self):
+        return self.nome_usuario
 
     class Meta:
         managed = False
