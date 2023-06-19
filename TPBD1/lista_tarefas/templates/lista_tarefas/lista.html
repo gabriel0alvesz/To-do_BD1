@@ -1,0 +1,22 @@
+{% extends "lista_tarefas/layout.html" %}
+{% load static %}
+
+{% block title %}
+    {{title}}
+{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'styles/home.css' %}">
+{% endblock %}
+
+{% block body %}
+    {% if perm %}
+        {% for tarefa in tarefas %}
+            {{ tarefa.descricao }} 
+        {% empty %}
+            Não existe nenhuma tarefa nesta Lista
+        {% endfor %}
+    {% else %}
+        Você não tem permissão para ver esta Lista de Tarefas
+    {% endif %}
+{% endblock %}

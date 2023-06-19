@@ -5,16 +5,20 @@ from django.contrib.auth import authenticate, login, logout # Utilizados para au
 from django.http import HttpResponseRedirect 
 from django.urls import reverse
 
+from datetime import date
+from . import funcoes
+
 # Create your views here.
 
 def home(request):
-
+    
     usuarios = len(Usuario.objects.all())
     listas   = len(ListaDeTarefas.objects.all())
     tarefas  = len(Tarefas.objects.all())
-
+    
     if request.user.is_authenticated:
         usuario = request.user
+        listas = ListaDeTarefas.objects.filter(fk_nome_usuario=usuario)
     else:
         usuario = None
         
@@ -90,3 +94,49 @@ def registrar(request):
         return render(request, "lista_tarefas/registrar.html",{
             "title": "Registrar"
         })
+        
+# Views de Administrar Listas
+def criar_lista(request):
+    if request.method == "POST":
+        nome = request.POST["nome"]
+        # try:
+        lista = ListaDeTarefas(nome_descritivo=nome,data_hora_criacao=date.today(),data_hora_modificacao=date.today(),responsavel_modificacao=request.user,fk_nome_usuario=request.user)
+        lista.save()
+        return render(request, "lista_tarefas/criar_lista.html", {
+            "title": "Criar Lista",
+            "usuario": request.user,
+            "message": "Lista " + nome + " criada com sucesso",
+        })
+        # except:
+        #     return render(request, "lista_tarefas/criar_lista.html", {
+        #         "title": "Criar Lista",
+        #         "usuario": request.user,
+        #         "message": "Falha ao criar a lista",
+        #     })            
+    return render(request, "lista_tarefas/criar_lista.html", {
+        "title": "Criar Lista",
+        "usuario": request.user,
+    })
+
+def lista(request,id):
+    lista = ListaDeTarefas.objects.get(id_lista=id)
+    tarefas = Tarefas.objects.filter(fk_lista=id)
+
+    try:
+        usuario = request.user
+    except:
+        usuario = None
+        
+    try:
+        booleana = funcoes.check_usuario_lista(request.user.nome_usuario,id)
+    except:
+        booleana = False
+    
+    return render(request, "lista_tarefas/lista.html",{
+        "title": lista.nome_descritivo,
+        "tarefas": tarefas,
+        "lista": lista,
+        "perm": booleana,
+        "usuario": usuario,
+    })
+    

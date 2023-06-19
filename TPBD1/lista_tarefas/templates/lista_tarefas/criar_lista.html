@@ -1,0 +1,31 @@
+{% extends "lista_tarefas/layout.html" %}
+{% load static %}
+
+{% block title %}
+    {{title}}
+{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'styles/login.css' %}">
+{% endblock %}
+
+{% block body %}
+
+    <div class="flexCenter">
+
+        <h2>Criar Lista</h2>
+
+        {% if message %}
+            <div>{{ message }}</div>
+        {% endif %}
+
+        <form action="{% url 'criar_lista' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <input class="form-control" autofocus type="text" name="nome" placeholder="Nome da Lista">
+            </div>
+            <input class="btn btn-primary" type="submit" value="Registrar">
+        </form>
+    </div>
+
+{% endblock %}

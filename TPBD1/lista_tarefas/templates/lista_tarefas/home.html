@@ -11,7 +11,11 @@
 
 {% block body %}
     {% if user.is_authenticated %}
-        Qualquer coisa
+        {% for lista in listas %}
+            <a href="{% url 'lista' id=lista.id_lista %}">{{ lista.nome_descritivo }}</a>
+        {% empty %}
+            Você não está em nenhuma lista
+        {% endfor %}
     {% else %}
         <div class="container">
             <div class="mini_container"><span class="texto">Usuários:</span><span class="numero">{{usuarios}}</span></div>
