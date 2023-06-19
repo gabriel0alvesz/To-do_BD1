@@ -1,0 +1,37 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="{% static 'styles/style.css' %}">
+        {% block style %}{% endblock %}
+    </head>
+    <body>
+        <nav>
+        {% if user.is_authenticated %}
+            <span>Bem-Vindo {{ usuario.nome }}</span>
+            <ul>
+                <li><a href="{% url 'home' %}"><img src="{% static 'icons/home.svg' %}" alt="Home" class="icon_home"></a></li>
+                <li><a>Perfil</a>
+                    <ul class="sub-option">
+                        <li><a class="nav-link" href="{% url 'userView' id=user.id %}">Perfil do Usuário</a></li>
+                        <li><a class="nav-link" href="{% url 'change_password' %}">Mudar Senha</a></li>
+                        <li><a class="nav-link" href="{% url 'logout' %}">Log Out</a></li>
+                </li>
+            </ul>
+        {% else %}
+            <span>Não logado</span>
+            <ul>
+                <li><a href="{% url 'home' %}"><img src="{% static 'icons/home.svg' %}" alt="Home" class="icon_home"></a></li>
+                <li><a class="nav-link" href="{% url 'login' %}">Log In</a></li>
+                <li><a class="nav-link" href="{% url 'register' %}">Register</a></li>
+            </ul>
+        {% endif %}
+        </nav>
+        {% block body %}{% endblock %}
+    </body>
+</html>
