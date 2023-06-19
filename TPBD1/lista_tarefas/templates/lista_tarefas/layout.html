@@ -18,8 +18,6 @@
                 <li><a href="{% url 'home' %}"><img src="{% static 'icons/home.svg' %}" alt="Home" class="icon_home"></a></li>
                 <li><a>Perfil</a>
                     <ul class="sub-option">
-                        <li><a class="nav-link" href="{% url 'userView' id=user.id %}">Perfil do Usuário</a></li>
-                        <li><a class="nav-link" href="{% url 'change_password' %}">Mudar Senha</a></li>
                         <li><a class="nav-link" href="{% url 'logout' %}">Log Out</a></li>
                 </li>
             </ul>
@@ -28,7 +26,7 @@
             <ul>
                 <li><a href="{% url 'home' %}"><img src="{% static 'icons/home.svg' %}" alt="Home" class="icon_home"></a></li>
                 <li><a class="nav-link" href="{% url 'login' %}">Log In</a></li>
-                <li><a class="nav-link" href="{% url 'register' %}">Register</a></li>
+                <li><a class="nav-link" href="{% url 'registrar' %}">Registrar</a></li>
             </ul>
         {% endif %}
         </nav>

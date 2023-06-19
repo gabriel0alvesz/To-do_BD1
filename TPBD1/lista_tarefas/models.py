@@ -1,5 +1,6 @@
+from typing import Literal
 from django.db import models
-from django.contrib.auth.models import BaseUserManager
+from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from django.contrib.auth.hashers import make_password
 
 # Create your models here.
@@ -54,16 +55,19 @@ class MeuUsuarioManager(BaseUserManager):
             raise ValueError('O telefone deve ser definido')
 
         user = self.model(nome_usuario=nome_usuario, email=email, nome=nome, telefone=telefone)
-        user.senha = make_password(senha)
+        user.set_password(senha)
+        print(len(user.password))
         user.save(using=self._db)
         return user
 
-class Usuario(models.Model):
+class Usuario(AbstractBaseUser):
     nome_usuario = models.CharField(primary_key=True, max_length=20)
-    senha = models.CharField(max_length=64)
     nome = models.CharField(max_length=60)
     telefone = models.IntegerField()
     email = models.CharField(max_length=60)
+    last_login = None
+
+    [field for field in AbstractBaseUser._meta.fields if field.name == "password"][0].db_column = "senha"
 
     objects = MeuUsuarioManager()
 
@@ -72,6 +76,10 @@ class Usuario(models.Model):
 
     def __str__(self):
         return self.nome_usuario
+
+    @property
+    def is_anonymous(self) -> Literal[False]:
+        return super().is_anonymous
 
     class Meta:
         managed = False

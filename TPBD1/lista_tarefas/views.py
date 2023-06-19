@@ -15,8 +15,9 @@ def home(request):
 
     if request.user.is_authenticated:
         usuario = request.user
-
-
+    else:
+        usuario = None
+        
     return render(request, "lista_tarefas/home.html", {
         "title": "Home",
         "usuario": usuario,
@@ -64,7 +65,7 @@ def registrar(request):
         password = request.POST["password"]
         confirmation = request.POST["confirmation"]
         if password != confirmation:
-            return render(request, "lista_tarefas/register.html", {
+            return render(request, "lista_tarefas/registrar.html", {
                 "title": "Registrar",
                 "message": "Senhas diferentes."
             })
@@ -74,18 +75,18 @@ def registrar(request):
             user = Usuario.objects.create_user(nome_usuario, password, email, nome, telefone)
             user.save()
         except ValueError as e:
-            return render(request, "lista_tarefas/register.html", {
+            return render(request, "lista_tarefas/registrar.html", {
                 "title": "Registrar",
                 "message": e,
             })
         except IntegrityError:
-            return render(request, "lista_tarefas/register.html", {
+            return render(request, "lista_tarefas/registrar.html", {
                 "title": "Registrar",
                 "message": "Usuário já utilizado."
             })
         login(request, user)
         return HttpResponseRedirect(reverse("home"))
     else:
-        return render(request, "lista_tarefas/register.html",{
-            "title": "Register"
+        return render(request, "lista_tarefas/registrar.html",{
+            "title": "Registrar"
         })

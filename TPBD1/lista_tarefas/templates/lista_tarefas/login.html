@@ -1,0 +1,34 @@
+{% extends "lista_tarefas/layout.html" %}
+{% load static %}
+
+{% block title %}
+    {{title}}
+{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'styles/login.css' %}">
+{% endblock %}
+
+{% block body %}
+
+    <div class="flexCenter">
+        <h2>Login</h2>
+
+        {% if message %}
+            <div>{{ message }}</div>
+        {% endif %}
+
+        <form action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <input autofocus class="form-control" type="text" name="username" placeholder="Nome de usuário">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="password" name="password" placeholder="Senha">
+            </div>
+            <input class="btn btn-primary" type="submit" value="Login">
+        </form>
+
+        Don't have an account? <a href="{% url 'registrar' %}">Registrar aqui.</a>
+    </div>
+{% endblock %}

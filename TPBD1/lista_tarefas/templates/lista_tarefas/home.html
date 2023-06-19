@@ -10,9 +10,13 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container">
-        <div class="mini_container"><span class="texto">Usuários:</span><span class="numero">{{usuarios}}</span></div>
-        <div class="mini_container"><span class="texto">Listas:</span><span class="numero">{{listas}}</span></div>
-        <div class="mini_container"><span class="texto">Tarefas:</span><span class="numero">{{tarefas}}</span></div>
-    </div>
+    {% if user.is_authenticated %}
+        Qualquer coisa
+    {% else %}
+        <div class="container">
+            <div class="mini_container"><span class="texto">Usuários:</span><span class="numero">{{usuarios}}</span></div>
+            <div class="mini_container"><span class="texto">Listas:</span><span class="numero">{{listas}}</span></div>
+            <div class="mini_container"><span class="texto">Tarefas:</span><span class="numero">{{tarefas}}</span></div>
+        </div>
+    {% endif %}
 {% endblock %}
