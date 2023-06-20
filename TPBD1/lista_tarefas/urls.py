@@ -8,4 +8,5 @@ urlpatterns = [
     path("registrar", views.registrar, name="registrar"),
     path("criar_lista", views.criar_lista, name="criar_lista"),
     path("lista/<int:id>", views.lista, name="lista"),
+    path("criar_convite", views.criar_convite, name="criar_convite"),
 ]

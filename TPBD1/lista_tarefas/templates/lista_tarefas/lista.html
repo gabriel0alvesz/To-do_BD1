@@ -16,6 +16,15 @@
         {% empty %}
             Não existe nenhuma tarefa nesta Lista
         {% endfor %}
+
+        <form action="/criar_convite" method="POST">
+            <select name="valor_selecionado">
+              {% for valor in nao_convidado %}
+                <option value="{{ valor }}">{{ valor }}</option>
+              {% endfor %}
+            </select>
+            <button type="submit">Enviar</button>
+        </form>
     {% else %}
         Você não tem permissão para ver esta Lista de Tarefas
     {% endif %}

@@ -27,6 +27,7 @@ CREATE TABLE Lista_de_Tarefas (
 
 
 CREATE TABLE Convite (
+    id_convite INTEGER AUTO_INCREMENT PRIMARY KEY,
     aceito BOOL DEFAULT(FALSE) NOT NULL,
     fk_nome_usuario_env VARCHAR(20) NOT NULL,
     fk_nome_usuario_rec VARCHAR(20) NOT NULL,

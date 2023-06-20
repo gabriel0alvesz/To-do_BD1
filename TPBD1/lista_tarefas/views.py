@@ -132,11 +132,16 @@ def lista(request,id):
     except:
         booleana = False
     
+    nao_convidado = Usuario.objects.exclude(nome_usuario__in=Convite.objects.filter(fk_lista=id).values_list('fk_nome_usuario_rec', flat=True)).exclude(nome_usuario=lista.fk_nome_usuario).values_list("nome_usuario", flat=True)
+    
     return render(request, "lista_tarefas/lista.html",{
         "title": lista.nome_descritivo,
         "tarefas": tarefas,
         "lista": lista,
         "perm": booleana,
         "usuario": usuario,
+        "nao_convidado": nao_convidado,
     })
-    
+
+def criar_convite(request,nome_usuario1,nome_usuario2,id_lista):
+    pass

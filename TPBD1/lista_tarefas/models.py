@@ -6,6 +6,7 @@ from django.contrib.auth.hashers import make_password
 # Create your models here.
 
 class Convite(models.Model):
+    id_convite = models.AutoField(primary_key=True)
     aceito = models.IntegerField()
     fk_nome_usuario_env = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='fk_nome_usuario_env')
     fk_nome_usuario_rec = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='fk_nome_usuario_rec', related_name='convite_fk_nome_usuario_rec_set')
