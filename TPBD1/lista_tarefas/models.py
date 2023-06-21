@@ -32,6 +32,7 @@ class ListaDeTarefas(models.Model):
 
 class Tarefas(models.Model):
     id_tarefa = models.AutoField(primary_key=True)
+    descricao = models.CharField(max_length=100)
     data_cadastro = models.DateTimeField()
     data_vencimento = models.DateTimeField(blank=True, null=True)
     tarefa_concluida = models.IntegerField()

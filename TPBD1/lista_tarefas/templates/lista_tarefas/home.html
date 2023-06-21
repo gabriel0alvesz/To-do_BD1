@@ -16,6 +16,13 @@
         {% empty %}
             Você não está em nenhuma lista
         {% endfor %}
+        {% for convite in convites %}
+            Convite da lista {{ convite.fk_lista.nome_descritivo }}
+            <a href="{% url 'responder_convite' id_lista=convite.fk_lista.id_lista id_usuario=usuario.nome_usuario resposta=0 %}">Recusar {{ lista.nome_descritivo }}</a>
+            <a href="{% url 'responder_convite' id_lista=convite.fk_lista.id_lista id_usuario=usuario.nome_usuario resposta=1 %}">Aceitar {{ lista.nome_descritivo }}</a>
+        {% empty %}
+            Você não recebeu nenhum convite
+        {% endfor %}
     {% else %}
         <div class="container">
             <div class="mini_container"><span class="texto">Usuários:</span><span class="numero">{{usuarios}}</span></div>

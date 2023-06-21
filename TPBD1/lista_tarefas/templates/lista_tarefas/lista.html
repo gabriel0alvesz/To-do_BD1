@@ -7,6 +7,10 @@
 
 {% block style %}
     <link rel="stylesheet" href="{% static 'styles/home.css' %}">
+    <script>    
+        var retorno = {{ retorno }}
+    </script>
+    <script type="text/javascript" src="{% static 'scripts/retorno_lista.js' %}"></script>
 {% endblock %}
 
 {% block body %}
@@ -17,14 +21,29 @@
             Não existe nenhuma tarefa nesta Lista
         {% endfor %}
 
-        <form action="/criar_convite" method="POST">
-            <select name="valor_selecionado">
-              {% for valor in nao_convidado %}
-                <option value="{{ valor }}">{{ valor }}</option>
-              {% endfor %}
-            </select>
-            <button type="submit">Enviar</button>
+        <form action="{% url 'criar_tarefa' id_lista=lista.id_lista %}" method="post">
+            {% csrf_token %}
+            <label for="texto_tarefa">Descreva a tarefa que deseja criar:</label>
+            <input type="text" name="texto_tarefa" id="texto_tarefa" maxlength="100">
+            <label for="date">Dia para término da tarefa: (Opcional)</label><br>
+            <input type="datetime-local" id="date" name="date"><br><br>
+            <button type="submit">Criar</button>
         </form>
+
+        {% if nao_convidado|length > 0 %}
+            <form action="{% url 'criar_convite' id_lista=lista.id_lista usuario=usuario.nome_usuario  %}" method="POST">
+                {% csrf_token %}
+                <select name="valor_selecionado">
+                    <option value=""></option>
+                    {% for valor in nao_convidado %}
+                        <option value="{{ valor }}">{{ valor }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit">Enviar</button>
+            </form>
+        {% else %}
+            <br>Não existe ninguém para chamar
+        {% endif %}
     {% else %}
         Você não tem permissão para ver esta Lista de Tarefas
     {% endif %}

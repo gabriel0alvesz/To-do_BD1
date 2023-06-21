@@ -39,7 +39,7 @@ CREATE TABLE Convite (
 
 CREATE TABLE Tarefas (
     id_tarefa INTEGER AUTO_INCREMENT PRIMARY KEY,
-    decricao VARCHAR(100) NOT NULL,
+    descricao VARCHAR(100) NOT NULL,
     data_cadastro DATETIME NOT NULL, 
     data_vencimento DATETIME NULL,
     tarefa_concluida BOOL DEFAULT(FALSE) NOT NULL,
