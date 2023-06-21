@@ -173,13 +173,11 @@ def criar_tarefa(request,id_lista):
         hora_criacao = datetime.now(tzinfo)
         tarefa = Tarefas(descricao=request.POST["texto_tarefa"], data_cadastro=hora_criacao, tarefa_concluida=0, fk_lista=lista)
         tarefa.save()
-        data_final = datetime.strptime(request.POST["date"], "%Y-%m-%dT%H:%M")
-        data_final = data_final.replace(tzinfo=tzinfo)
         if request.POST["date"] != "":
-             if data_final <= tarefa.data_cadastro:
-                 return HttpResponseRedirect(reverse("lista",None,[id_lista,3]))
-             tarefa.data_vencimento = request.POST["date"]
-             tarefa.save()
+            data_final = datetime.strptime(request.POST["date"], "%Y-%m-%dT%H:%M")
+            data_final = data_final.replace(tzinfo=tzinfo)
+            tarefa.data_vencimento = request.POST["date"]
+            tarefa.save()
         return HttpResponseRedirect(reverse("lista",None,[id_lista,2]))
 
 def responder_convite(request,id_lista,id_usuario,resposta):

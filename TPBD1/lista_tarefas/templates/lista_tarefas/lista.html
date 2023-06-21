@@ -11,12 +11,17 @@
         var retorno = {{ retorno }}
     </script>
     <script type="text/javascript" src="{% static 'scripts/retorno_lista.js' %}"></script>
+    <script type="text/javascript" src="{% static 'scripts/att_tarefa.js' %}"></script>
 {% endblock %}
 
 {% block body %}
     {% if perm %}
         {% for tarefa in tarefas %}
-            {{ tarefa.descricao }} 
+        <div id=tarefa__{{ tarefa.id_tarefa }}>
+            {{ tarefa.descricao }}
+            <input type="checkbox" id="checkbox__{{ tarefa.id_tarefa }}" onclick="attTarefa({{ tarefa.id_tarefa }})" {% if tarefa.tarefa_concluida %}checked{% endif %}>
+            <input type="button">
+        </div><br>
         {% empty %}
             Não existe nenhuma tarefa nesta Lista
         {% endfor %}
