@@ -1,7 +1,6 @@
 from typing import Literal
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
-from django.contrib.auth.hashers import make_password
 
 # Create your models here.
 
@@ -36,7 +35,7 @@ class Tarefas(models.Model):
     data_cadastro = models.DateTimeField()
     data_vencimento = models.DateTimeField(blank=True, null=True)
     tarefa_concluida = models.IntegerField()
-    fk_lista = models.ForeignKey(ListaDeTarefas, models.DO_NOTHING)
+    fk_lista = models.ForeignKey(ListaDeTarefas, on_delete=models.CASCADE)
 
     class Meta:
         managed = False

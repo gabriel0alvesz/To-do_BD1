@@ -7,6 +7,7 @@ from django.urls import reverse
 
 from . import funcoes
 from datetime import datetime, timezone, timedelta
+from django.http import JsonResponse
 
 # Create your views here.
 
@@ -18,7 +19,7 @@ def home(request):
     
     if request.user.is_authenticated:
         usuario = request.user
-        listas = ListaDeTarefas.objects.filter(fk_nome_usuario=usuario) | ListaDeTarefas.objects.filter(id_lista__in=Convite.objects.filter(fk_nome_usuario_rec=usuario,aceito=1).values_list("fk_lista", flat=True))
+        listas = funcoes.listas_usuario(usuario.nome_usuario)
         convites = Convite.objects.filter(fk_nome_usuario_rec=usuario,aceito=0)
     else:
         usuario = None
@@ -98,31 +99,32 @@ def registrar(request):
             "title": "Registrar"
         })
         
-# Views de Administrar Listas
-def criar_lista(request):
-    if request.method == "POST":
-        nome = request.POST["nome"]
-        # try:
+# Views de Listas
+def criar_lista(request, nome):
+    try:
+        nome = nome
         timezone_offset = -3.0 
         tzinfo = timezone(timedelta(hours=timezone_offset))
         hora_criacao = datetime.now(tzinfo)
         lista = ListaDeTarefas(nome_descritivo=nome,data_hora_criacao=hora_criacao,data_hora_modificacao=hora_criacao,responsavel_modificacao=request.user,fk_nome_usuario=request.user)
         lista.save()
-        return render(request, "lista_tarefas/criar_lista.html", {
-            "title": "Criar Lista",
-            "usuario": request.user,
-            "message": "Lista " + nome + " criada com sucesso",
-        })
-        # except:
-        #     return render(request, "lista_tarefas/criar_lista.html", {
-        #         "title": "Criar Lista",
-        #         "usuario": request.user,
-        #         "message": "Falha ao criar a lista",
-        #     })            
-    return render(request, "lista_tarefas/criar_lista.html", {
-        "title": "Criar Lista",
-        "usuario": request.user,
-    })
+
+        listas = funcoes.listas_usuario(request.user.nome_usuario)
+
+        data = {
+            'success': True,
+            'items': []
+        }
+
+        for item in listas:
+            aux = {}
+            aux["id"] = item.id_lista
+            aux["nome"] = item.nome_descritivo
+            data["items"].append(aux)
+        
+        return JsonResponse(data)
+    except:
+        JsonResponse({'success': False})
 
 def view_lista(request,id,retorno=None):
     lista = ListaDeTarefas.objects.get(id_lista=id)
@@ -156,6 +158,12 @@ def view_lista(request,id,retorno=None):
         "retorno": retorno,
     })
 
+def delete_lista(request, id_lista):
+    lista = ListaDeTarefas.objects.get(id_lista=id_lista)
+    lista.delete()
+    return HttpResponseRedirect(reverse("home"))
+
+# Views de Convite
 def criar_convite(request,id_lista,usuario):
     if request.method == 'POST':
         lista = ListaDeTarefas.objects.get(id_lista=id_lista)
@@ -165,6 +173,16 @@ def criar_convite(request,id_lista,usuario):
         convite.save()
         return HttpResponseRedirect(reverse("lista",None,[id_lista,1]))
 
+def responder_convite(request,id_lista,id_usuario,resposta):
+    convite = Convite.objects.get(fk_lista=id_lista,fk_nome_usuario_rec=id_usuario)
+    if resposta == 0:
+        convite.delete()
+    else:
+        convite.aceito = 1
+        convite.save()
+    return HttpResponseRedirect(reverse("home"))
+
+# Views de Tarefa
 def criar_tarefa(request,id_lista):
     if request.method == 'POST':
         lista = ListaDeTarefas.objects.get(id_lista=id_lista)
@@ -179,12 +197,14 @@ def criar_tarefa(request,id_lista):
             tarefa.data_vencimento = request.POST["date"]
             tarefa.save()
         return HttpResponseRedirect(reverse("lista",None,[id_lista,2]))
+    
+def att_tarefa(request,id_tarefa,atualizacao):
+    tarefa = Tarefas.objects.get(id_tarefa=id_tarefa)
 
-def responder_convite(request,id_lista,id_usuario,resposta):
-    convite = Convite.objects.get(fk_lista=id_lista,fk_nome_usuario_rec=id_usuario)
-    if resposta == 0:
-        convite.delete()
-    else:
-        convite.aceito = 1
-        convite.save()
-    return HttpResponseRedirect(reverse("home"))
+    if atualizacao == 1:
+        tarefa.tarefa_concluida = abs(tarefa.tarefa_concluida - 1)
+        tarefa.save()
+        return JsonResponse({'success': True})
+    
+    tarefa.delete()
+    return JsonResponse({'success': False})

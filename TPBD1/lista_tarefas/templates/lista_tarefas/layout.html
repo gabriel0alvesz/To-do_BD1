@@ -16,7 +16,6 @@
             <span>Bem-Vindo {{ usuario.nome }}</span>
             <ul>
                 <li><a href="{% url 'home' %}"><img src="{% static 'icons/home.svg' %}" alt="Home" class="icon_home"></a></li>
-                <li><a href="{% url 'criar_lista' %}">Criar Lista</a></li>
                 <li><a>Perfil</a>
                     <ul class="sub-option">
                         <li><a class="nav-link" href="{% url 'logout' %}">Log Out</a></li>

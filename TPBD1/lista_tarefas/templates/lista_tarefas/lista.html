@@ -17,11 +17,12 @@
 {% block body %}
     {% if perm %}
         {% for tarefa in tarefas %}
-        <div id=tarefa__{{ tarefa.id_tarefa }}>
+        <div id="tarefa__{{ tarefa.id_tarefa }}">
             {{ tarefa.descricao }}
             <input type="checkbox" id="checkbox__{{ tarefa.id_tarefa }}" onclick="attTarefa({{ tarefa.id_tarefa }})" {% if tarefa.tarefa_concluida %}checked{% endif %}>
-            <input type="button">
-        </div><br>
+            <input type="button" onclick="deleteTarefa({{ tarefa.id_tarefa }})">
+            <br>
+        </div>
         {% empty %}
             Não existe nenhuma tarefa nesta Lista
         {% endfor %}
@@ -48,6 +49,10 @@
             </form>
         {% else %}
             <br>Não existe ninguém para chamar
+        {% endif %}
+
+        {% if usuario.nome_usuario == lista.fk_nome_usuario.nome_usuario %}
+            <a href="{% url 'delete_lista' id_lista=lista.id_lista %}">Deletar Lista</a>
         {% endif %}
     {% else %}
         Você não tem permissão para ver esta Lista de Tarefas
