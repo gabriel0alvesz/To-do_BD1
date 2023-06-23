@@ -20,6 +20,9 @@ function cria_tarefa(id_lista){
             texto += data.tarefa.id + '" onclick="attTarefa(' +  data.tarefa.id + ')"><input type="button" onclick="deleteTarefa(' + data.tarefa.id + ')">'
             texto += '<br></div>'
             tarefas.innerHTML += texto
+
+            tarefa.value = ""
+            dia.value = ""
         }
     })
     .catch(error => {
@@ -68,18 +71,29 @@ function pullBanco(){
     fetch('../../pullBancoTarefas/' + lista)
     .then(response => response.json())
     .then(data => {
-        texto = ""
-        data.tarefas.forEach(function(tarefa) {
-            // Acessa os valores de cada item
-            texto += '<div class="tarefa" id="tarefa__' + tarefa.id + '">' + tarefa.descricao + '<input type="checkbox" id="checkbox__'
-            texto += tarefa.id + '" onclick="attTarefa(' +  tarefa.id + ')" '
-            if (tarefa.checked){
-                texto += "checked"
+        if (data.success == "True"){
+            texto = ""
+            if (data.tarefas.length != 0){
+                data.tarefas.forEach(function(tarefa) {
+                    // Acessa os valores de cada item
+                    texto += '<div class="tarefa" id="tarefa__' + tarefa.id + '">' + tarefa.descricao + '<input type="checkbox" id="checkbox__'
+                    texto += tarefa.id + '" onclick="attTarefa(' +  tarefa.id + ')" '
+                    if (tarefa.checked){
+                        texto += "checked"
+                    }
+                    texto += '><button onclick="deleteTarefa(' + tarefa.id + ')"><img src="../static/icons/trash_can.png" width="24px"></button>'
+                    texto += '<br></div>'
+                })
+                tarefas.innerHTML = texto
             }
-            texto += '><button onclick="deleteTarefa(' + tarefa.id + ')"><img src="../static/icons/trash_can.png" width="24px"></button>'
-            texto += '<br></div>'
-        })
-        tarefas.innerHTML = texto
+            else{
+                tarefas.innerHTML = "Não existe nenhuma tarefa nesta Lista"
+            }
+        }
+        else{
+            alert("A lista foi excluida por seu criador")
+            window.location.href = "/";
+        }
     })
     .catch(error => {
         console.error(error);

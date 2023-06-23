@@ -7,9 +7,9 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 class Convite(models.Model):
     id_convite = models.AutoField(primary_key=True)
     aceito = models.IntegerField()
-    fk_nome_usuario_env = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='fk_nome_usuario_env')
-    fk_nome_usuario_rec = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='fk_nome_usuario_rec', related_name='convite_fk_nome_usuario_rec_set')
-    fk_lista = models.ForeignKey('ListaDeTarefas', models.DO_NOTHING)
+    fk_nome_usuario_env = models.ForeignKey('Usuario', on_delete=models.CASCADE, db_column='fk_nome_usuario_env')
+    fk_nome_usuario_rec = models.ForeignKey('Usuario', on_delete=models.CASCADE, db_column='fk_nome_usuario_rec', related_name='convite_fk_nome_usuario_rec_set')
+    fk_lista = models.ForeignKey('ListaDeTarefas', on_delete=models.CASCADE)
 
     class Meta:
         managed = False
@@ -22,7 +22,7 @@ class ListaDeTarefas(models.Model):
     data_hora_criacao = models.DateTimeField()
     data_hora_modificacao = models.DateTimeField()
     responsavel_modificacao = models.CharField(max_length=20)
-    fk_nome_usuario = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='fk_nome_usuario')
+    fk_nome_usuario = models.ForeignKey('Usuario', on_delete=models.CASCADE, db_column='fk_nome_usuario')
 
     class Meta:
         managed = False

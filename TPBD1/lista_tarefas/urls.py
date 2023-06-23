@@ -17,4 +17,7 @@ urlpatterns = [
     path("att_tarefa/<int:id_tarefa>/<int:atualizacao>", views.att_tarefa, name="att_tarefa"),
     path("responder_convite/<int:id_lista>/<str:id_usuario>/<int:resposta>", views.responder_convite, name="responder_convite"),
     path("pullBancoTarefas/<int:id_lista>", views.pullBancoTarefas, name="pullBancoTarefas"),
+    path("pullBancoListas", views.pullBancoListas, name="pullBancoListas"),
+    path("pullBancoConvites", views.pullBancoConvites, name="pullBancoConvites"),
+    path("erro", views.erro, name="erro"),
 ]

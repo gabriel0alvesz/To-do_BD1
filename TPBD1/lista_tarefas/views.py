@@ -126,37 +126,33 @@ def criar_lista(request, nome):
     except:
         JsonResponse({'success': False})
 
-def view_lista(request,id,retorno=None):
-    lista = ListaDeTarefas.objects.get(id_lista=id)
-    tarefas = Tarefas.objects.filter(fk_lista=id)
-
+def view_lista(request,id):
     try:
-        usuario = request.user
-    except:
-        usuario = None
+        lista = ListaDeTarefas.objects.get(id_lista=id)
+        tarefas = Tarefas.objects.filter(fk_lista=id)
+
+        try:
+            usuario = request.user
+        except:
+            usuario = None
+            
+        try:
+            booleana = funcoes.check_usuario_lista(request.user.nome_usuario,id)
+        except:
+            booleana = False
         
-    try:
-        booleana = funcoes.check_usuario_lista(request.user.nome_usuario,id)
+        nao_convidado = Usuario.objects.exclude(nome_usuario__in=Convite.objects.filter(fk_lista=id).values_list('fk_nome_usuario_rec', flat=True)).exclude(nome_usuario=lista.fk_nome_usuario).values_list("nome_usuario", flat=True)
+        
+        return render(request, "lista_tarefas/lista.html",{
+            "title": lista.nome_descritivo,
+            "tarefas": tarefas,
+            "lista": lista,
+            "perm": booleana,
+            "usuario": usuario,
+            "nao_convidado": nao_convidado,
+        })
     except:
-        booleana = False
-    
-    nao_convidado = Usuario.objects.exclude(nome_usuario__in=Convite.objects.filter(fk_lista=id).values_list('fk_nome_usuario_rec', flat=True)).exclude(nome_usuario=lista.fk_nome_usuario).values_list("nome_usuario", flat=True)
-    
-    # Retorno:
-    # 1: Convite enviado com sucesso
-    # 2: Tarefa criada com sucesso
-    # 3: Tarefa criada, hora de finalização inválida
-    # 4: Tarefa não criada
-
-    return render(request, "lista_tarefas/lista.html",{
-        "title": lista.nome_descritivo,
-        "tarefas": tarefas,
-        "lista": lista,
-        "perm": booleana,
-        "usuario": usuario,
-        "nao_convidado": nao_convidado,
-        "retorno": retorno,
-    })
+        return HttpResponseRedirect(reverse("erro"))
 
 def delete_lista(request, id_lista):
     lista = ListaDeTarefas.objects.get(id_lista=id_lista)
@@ -171,7 +167,7 @@ def criar_convite(request,id_lista,usuario):
         usuario_rec = Usuario.objects.get(nome_usuario=request.POST["valor_selecionado"])
         convite = Convite(fk_nome_usuario_env=usuario_env, fk_nome_usuario_rec=usuario_rec, fk_lista=lista,aceito=0)
         convite.save()
-        return HttpResponseRedirect(reverse("lista",None,[id_lista,1]))
+        return HttpResponseRedirect(reverse("lista",None,[id_lista]))
 
 def responder_convite(request,id_lista,id_usuario,resposta):
     convite = Convite.objects.get(fk_lista=id_lista,fk_nome_usuario_rec=id_usuario)
@@ -184,13 +180,19 @@ def responder_convite(request,id_lista,id_usuario,resposta):
 
 # Views de Tarefa
 def criar_tarefa(request,id_lista,texto_tarefa,date):
-    print(date)
     lista = ListaDeTarefas.objects.get(id_lista=id_lista)
+
     timezone_offset = -3.0 
     tzinfo = timezone(timedelta(hours=timezone_offset))
     hora_criacao = datetime.now(tzinfo)
+    
+    lista.responsavel_modificacao = request.user.nome_usuario
+    lista.data_hora_modificacao = hora_criacao
+    lista.save()
+
     tarefa = Tarefas(descricao=texto_tarefa, data_cadastro=hora_criacao, tarefa_concluida=0, fk_lista=lista)
     tarefa.save()
+
     if date != "-1":
         data_final = datetime.strptime(date, "%Y-%m-%dT%H:%M")
         data_final = data_final.replace(tzinfo=tzinfo)
@@ -208,27 +210,71 @@ def criar_tarefa(request,id_lista,texto_tarefa,date):
 def att_tarefa(request,id_tarefa,atualizacao):
     tarefa = Tarefas.objects.get(id_tarefa=id_tarefa)
 
+    lista = ListaDeTarefas.objects.get(id_lista=tarefa.fk_lista)
+    timezone_offset = -3.0 
+    tzinfo = timezone(timedelta(hours=timezone_offset))
+    hora_modificacao = datetime.now(tzinfo)
+    lista.data_hora_modificacao = hora_modificacao
+    lista.save()
+
     if atualizacao == 1:
         tarefa.tarefa_concluida = abs(tarefa.tarefa_concluida - 1)
         tarefa.save()
         return JsonResponse({'success': True})
     
     tarefa.delete()
+
     return JsonResponse({'success': False})
 
 def pullBancoTarefas(request, id_lista):
-    
-    tarefas = Tarefas.objects.filter(fk_lista=id_lista).order_by("data_cadastro")
-
-    data = {
-        "tarefas": []
-    }
-    
-    for tarefa in tarefas:
-        aux = {}
-        aux["id"] = tarefa.id_tarefa
-        aux["descricao"] = tarefa.descricao
-        aux["checked"] = tarefa.tarefa_concluida
-        data["tarefas"].append(aux)
+    try:
+        lista = ListaDeTarefas.objects.get(id_lista=id_lista)
+        tarefas = Tarefas.objects.filter(fk_lista=id_lista).order_by("data_cadastro")
+        data = {
+            "success": "True",
+            "tarefas": []
+        }
+        
+        for tarefa in tarefas:
+            aux = {}
+            aux["id"] = tarefa.id_tarefa
+            aux["descricao"] = tarefa.descricao
+            aux["checked"] = tarefa.tarefa_concluida
+            data["tarefas"].append(aux)
+    except:
+        data = {
+            "success": "False",
+        }
 
     return JsonResponse(data)
+
+def pullBancoListas(request):
+    listas = funcoes.listas_usuario(request.user.nome_usuario)
+    data = {
+        "listas": [],
+    }    
+    for lista in listas:
+        aux = {}
+        aux["id"] = lista.id_lista
+        aux["texto"] = lista.nome_descritivo
+        data["listas"].append(aux)
+    return JsonResponse(data)
+
+def pullBancoConvites(request):
+    convites = Convite.objects.filter(fk_nome_usuario_rec=request.user.nome_usuario,aceito=0)
+    data = {
+        "convites": [],
+    }    
+    for convite in convites:
+        aux = {}
+        aux["nome_lista"] = convite.fk_lista.nome_descritivo
+        aux["id_lista"] = convite.fk_lista.id_lista
+        aux["usuario"] = request.user.nome_usuario
+        data["convites"].append(aux)
+    return JsonResponse(data)
+
+def erro(request):
+    return render(request, 'lista_tarefas/erro.html')
+
+def handler404(request, exception):
+    return render(request, 'lista_tarefas/404.html', status=404)

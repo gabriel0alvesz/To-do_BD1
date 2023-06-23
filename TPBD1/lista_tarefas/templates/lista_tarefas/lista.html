@@ -10,11 +10,12 @@
     <script>    
         var lista = {{ lista.id_lista }}
     </script>
-    <script type="text/javascript" src="{% static 'scripts/att_tarefa.js' %}"></script>
+    <script type="text/javascript" src="{% static 'scripts/controle_tarefas.js' %}"></script>
 {% endblock %}
 
 {% block body %}
     {% if perm %}
+        <h2>Tarefas</h2>
         <div class="tarefas">
             {% for tarefa in tarefas %}
             <div class="tarefa" id="tarefa__{{ tarefa.id_tarefa }}">
@@ -28,12 +29,14 @@
             {% endfor %}
         </div>
         
+        <h2>Criar Tarefa</h2>
         <label for="texto_tarefa">Descreva a tarefa que deseja criar:</label>
         <input type="text" name="texto_tarefa" id="texto_tarefa" maxlength="100">
         <label for="date">Dia para término da tarefa: (Opcional)</label><br>
         <input type="datetime-local" id="date" name="date"><br><br>
         <button onclick="cria_tarefa({{lista.id_lista}})">Criar Tarefa</button>
 
+        <h2>Convidar</h2>
         {% if nao_convidado|length > 0 %}
             <form action="{% url 'criar_convite' id_lista=lista.id_lista usuario=usuario.nome_usuario  %}" method="POST">
                 {% csrf_token %}
@@ -49,6 +52,7 @@
             <br>Não existe ninguém para chamar
         {% endif %}
 
+        <h2>Cuidado</h2>
         {% if usuario.nome_usuario == lista.fk_nome_usuario.nome_usuario %}
             <a href="{% url 'delete_lista' id_lista=lista.id_lista %}">Deletar Lista</a>
         {% endif %}
