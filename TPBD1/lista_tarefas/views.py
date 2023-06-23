@@ -183,20 +183,27 @@ def responder_convite(request,id_lista,id_usuario,resposta):
     return HttpResponseRedirect(reverse("home"))
 
 # Views de Tarefa
-def criar_tarefa(request,id_lista):
-    if request.method == 'POST':
-        lista = ListaDeTarefas.objects.get(id_lista=id_lista)
-        timezone_offset = -3.0 
-        tzinfo = timezone(timedelta(hours=timezone_offset))
-        hora_criacao = datetime.now(tzinfo)
-        tarefa = Tarefas(descricao=request.POST["texto_tarefa"], data_cadastro=hora_criacao, tarefa_concluida=0, fk_lista=lista)
+def criar_tarefa(request,id_lista,texto_tarefa,date):
+    print(date)
+    lista = ListaDeTarefas.objects.get(id_lista=id_lista)
+    timezone_offset = -3.0 
+    tzinfo = timezone(timedelta(hours=timezone_offset))
+    hora_criacao = datetime.now(tzinfo)
+    tarefa = Tarefas(descricao=texto_tarefa, data_cadastro=hora_criacao, tarefa_concluida=0, fk_lista=lista)
+    tarefa.save()
+    if date != "-1":
+        data_final = datetime.strptime(date, "%Y-%m-%dT%H:%M")
+        data_final = data_final.replace(tzinfo=tzinfo)
+        tarefa.data_vencimento = date
         tarefa.save()
-        if request.POST["date"] != "":
-            data_final = datetime.strptime(request.POST["date"], "%Y-%m-%dT%H:%M")
-            data_final = data_final.replace(tzinfo=tzinfo)
-            tarefa.data_vencimento = request.POST["date"]
-            tarefa.save()
-        return HttpResponseRedirect(reverse("lista",None,[id_lista,2]))
+    data = {
+        'success': True,
+        'tarefa': {
+            "id": tarefa.id_tarefa,
+            "descricao": tarefa.descricao,
+        }
+    }
+    return JsonResponse(data)
     
 def att_tarefa(request,id_tarefa,atualizacao):
     tarefa = Tarefas.objects.get(id_tarefa=id_tarefa)
@@ -208,3 +215,20 @@ def att_tarefa(request,id_tarefa,atualizacao):
     
     tarefa.delete()
     return JsonResponse({'success': False})
+
+def pullBancoTarefas(request, id_lista):
+    
+    tarefas = Tarefas.objects.filter(fk_lista=id_lista).order_by("data_cadastro")
+
+    data = {
+        "tarefas": []
+    }
+    
+    for tarefa in tarefas:
+        aux = {}
+        aux["id"] = tarefa.id_tarefa
+        aux["descricao"] = tarefa.descricao
+        aux["checked"] = tarefa.tarefa_concluida
+        data["tarefas"].append(aux)
+
+    return JsonResponse(data)

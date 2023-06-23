@@ -6,35 +6,33 @@
 {% endblock %}
 
 {% block style %}
-    <link rel="stylesheet" href="{% static 'styles/home.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/lista.css' %}">
     <script>    
-        var retorno = {{ retorno }}
+        var lista = {{ lista.id_lista }}
     </script>
-    <script type="text/javascript" src="{% static 'scripts/retorno_lista.js' %}"></script>
     <script type="text/javascript" src="{% static 'scripts/att_tarefa.js' %}"></script>
 {% endblock %}
 
 {% block body %}
     {% if perm %}
-        {% for tarefa in tarefas %}
-        <div id="tarefa__{{ tarefa.id_tarefa }}">
-            {{ tarefa.descricao }}
-            <input type="checkbox" id="checkbox__{{ tarefa.id_tarefa }}" onclick="attTarefa({{ tarefa.id_tarefa }})" {% if tarefa.tarefa_concluida %}checked{% endif %}>
-            <input type="button" onclick="deleteTarefa({{ tarefa.id_tarefa }})">
-            <br>
+        <div class="tarefas">
+            {% for tarefa in tarefas %}
+            <div class="tarefa" id="tarefa__{{ tarefa.id_tarefa }}">
+                {{ tarefa.descricao }}
+                <input type="checkbox" id="checkbox__{{ tarefa.id_tarefa }}" onclick="attTarefa({{ tarefa.id_tarefa }})" {% if tarefa.tarefa_concluida %}checked{% endif %}>
+                <button onclick="deleteTarefa({{ tarefa.id_tarefa }})"><img src="{% static 'icons/trash_can.png' %}" width="24px"></button>
+                <br>
+            </div>
+            {% empty %}
+                Não existe nenhuma tarefa nesta Lista
+            {% endfor %}
         </div>
-        {% empty %}
-            Não existe nenhuma tarefa nesta Lista
-        {% endfor %}
-
-        <form action="{% url 'criar_tarefa' id_lista=lista.id_lista %}" method="post">
-            {% csrf_token %}
-            <label for="texto_tarefa">Descreva a tarefa que deseja criar:</label>
-            <input type="text" name="texto_tarefa" id="texto_tarefa" maxlength="100">
-            <label for="date">Dia para término da tarefa: (Opcional)</label><br>
-            <input type="datetime-local" id="date" name="date"><br><br>
-            <button type="submit">Criar</button>
-        </form>
+        
+        <label for="texto_tarefa">Descreva a tarefa que deseja criar:</label>
+        <input type="text" name="texto_tarefa" id="texto_tarefa" maxlength="100">
+        <label for="date">Dia para término da tarefa: (Opcional)</label><br>
+        <input type="datetime-local" id="date" name="date"><br><br>
+        <button onclick="cria_tarefa({{lista.id_lista}})">Criar Tarefa</button>
 
         {% if nao_convidado|length > 0 %}
             <form action="{% url 'criar_convite' id_lista=lista.id_lista usuario=usuario.nome_usuario  %}" method="POST">

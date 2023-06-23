@@ -1,0 +1,11 @@
+.tarefa{
+    display: grid;
+    column-gap: 5px;
+    grid-template-columns: auto 20px 30px;
+}
+
+.tarefas button{
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
