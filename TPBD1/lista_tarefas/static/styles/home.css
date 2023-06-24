@@ -21,9 +21,14 @@
     font-weight: bold;
 }
 
-#listas a {
-    text-decoration: none;
-    color: black;
+#listas {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+#header_listas {
+    padding-bottom: 1rem;
+    font-size: 1.3rem;
 }
 
 .lista {
@@ -32,8 +37,47 @@
     padding-bottom: 1rem;
 }
 
-#header_listas {
+#listas a {
+    text-decoration: none;
+    color: black;
+}
+
+.funcionalidade_adicional_listas {
+    display: grid;
+    grid-template-columns: 49% auto 49%;
+    gap: 1%;
+}
+
+.criar_lista {
+    display: grid;
+    gap: 1rem;
     padding-top: 1rem;
     padding-bottom: 1rem;
-    font-size: 1.3rem;
+}
+
+.criar_lista .nome_descritivo {
+    display: grid;
+    gap: 0.7rem;
+}
+
+.convites {
+    display: grid;
+    gap: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+#header_convites {
+    padding-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.convite {
+    display: grid;
+    grid-template-columns: 60% 20% 20%;
+    padding-bottom: 1rem;
+}
+
+#convites a {
+    text-decoration: none;
 }

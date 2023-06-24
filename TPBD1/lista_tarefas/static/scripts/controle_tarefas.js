@@ -157,7 +157,15 @@ function pullBanco(){
                 tarefas.innerHTML = texto
             }
             else{
-                tarefas.innerHTML = "Não existe nenhuma tarefa nesta Lista"
+                texto = '<div class="tarefa" id="header_tarefas">'
+                texto += '<tag>Descrição da tarefa</tag>'
+                texto += '<tag>Data de Criação</tag>'
+                texto += '<tag>Data de Vencimento</tag>'
+                texto += '<tag>Concluída?</tag>'
+                texto += '<tag>Deletar?</tag>'
+                texto += '</div>'
+                texto += "Não existe nenhuma tarefa nesta Lista"
+                tarefas.innerHTML = texto
             }
         }
         else{

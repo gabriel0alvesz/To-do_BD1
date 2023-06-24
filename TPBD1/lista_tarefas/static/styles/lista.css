@@ -9,6 +9,16 @@
     width: 1.4rem;
 }
 
+.tarefas {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+#header_tarefas {
+    padding-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
 .tarefas button{
     border: none;
     background-color: transparent;
@@ -17,12 +27,6 @@
     vertical-align: middle;
     width: auto;
     text-align: start;
-}
-
-#header_tarefas {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-    font-size: 1.3rem;
 }
 
 .nome_lista {
@@ -36,12 +40,8 @@
 
 .funcionalidade_adicional_tarefas {
     display: grid;
-    grid-template-columns: 49% 49%;
-    gap: 2%;
-}
-
-.funcionalidade_adicional_tarefas h2 {
-    margin: 0%;
+    grid-template-columns: 49% auto 49%;
+    gap: 1%;
 }
 
 .nova_tarefa {
