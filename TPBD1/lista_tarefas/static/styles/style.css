@@ -5,7 +5,26 @@
 .icon_home{
     width: 1em;
 }
+nav h2 {
+    display: inline;
+}
 
 nav ul{
     list-style: none;
+}
+
+.main_nav h2 {
+    display: inline-block;
+}
+
+.main_nav ul {
+    display: inline-block;
+}
+
+.main_nav ul li {
+    display: inline-block;
+}
+
+.main_nav ul li img {
+    vertical-align: middle;
 }

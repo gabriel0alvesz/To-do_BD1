@@ -11,25 +11,24 @@
         {% block style %}{% endblock %}
     </head>
     <body>
-        <nav>
+        <nav class="main_nav">
         {% if user.is_authenticated %}
-            <span>Bem-Vindo {{ usuario.nome }}</span>
+            <h2>Bem-Vindo {{ usuario.nome }}</h2>
             <ul>
-                <li><a href="{% url 'home' %}"><img src="{% static 'icons/home.svg' %}" alt="Home" class="icon_home"></a></li>
-                <li><a>Perfil</a>
-                    <ul class="sub-option">
-                        <li><a class="nav-link" href="{% url 'logout' %}">Log Out</a></li>
-                </li>
+                <li><a href="{% url 'home' %}"><img src="{% static 'icons/home.svg' %}" alt="Home" class="icon_home">Home</a></li>
+                <li><a class="nav-link" href="{% url 'logout' %}"><img src="{% static 'icons/logout.svg' %}" alt="Desconectar" class="icon_home">Desconectar</a></li>
             </ul>
         {% else %}
-            <span>Não logado</span>
+            <h2>Não logado</h2>
             <ul>
-                <li><a href="{% url 'home' %}"><img src="{% static 'icons/home.svg' %}" alt="Home" class="icon_home"></a></li>
-                <li><a class="nav-link" href="{% url 'login' %}">Conectar-se</a></li>
-                <li><a class="nav-link" href="{% url 'registrar' %}">Registrar</a></li>
+                <li><a href="{% url 'home' %}"><img src="{% static 'icons/home.svg' %}" alt="Home" class="icon_home">Home</a></li>
+                <li><a class="nav-link" href="{% url 'login' %}"><img src="{% static 'icons/login.svg' %}" alt="Conectar-se" class="icon_home">Conectar-se</a></li>
+                <li><a class="nav-link" href="{% url 'registrar' %}"><img src="{% static 'icons/register.svg' %}" alt="Registrar" class="icon_home">Registrar</a></li>
             </ul>
         {% endif %}
         </nav>
-        {% block body %}{% endblock %}
+        <div class="corpo">
+            {% block body %}{% endblock %}
+        </div>
     </body>
 </html>

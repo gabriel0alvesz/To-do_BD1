@@ -20,3 +20,20 @@
     font-size: 3em;
     font-weight: bold;
 }
+
+#listas a {
+    text-decoration: none;
+    color: black;
+}
+
+.lista {
+    display: grid;
+    grid-template-columns: 40% 20% 20% 20%;
+    padding-bottom: 1rem;
+}
+
+#header_listas {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    font-size: 1.3rem;
+}

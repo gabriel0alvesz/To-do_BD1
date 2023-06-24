@@ -1,11 +1,80 @@
 .tarefa{
     display: grid;
-    column-gap: 5px;
-    grid-template-columns: auto 20px 30px;
+    grid-template-columns: 40% 20% 20% 10% 10%;
+    padding-bottom: 1rem;
+}
+
+.checkbox_tarefa {
+    height: 1.4rem;
+    width: 1.4rem;
 }
 
 .tarefas button{
     border: none;
     background-color: transparent;
     cursor: pointer;
+    padding: 0;
+    vertical-align: middle;
+    width: auto;
+    text-align: start;
+}
+
+#header_tarefas {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.nome_lista {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.deleta_lista{
+    vertical-align: middle;
+}
+
+.funcionalidade_adicional_tarefas {
+    display: grid;
+    grid-template-columns: 49% 49%;
+    gap: 2%;
+}
+
+.funcionalidade_adicional_tarefas h2 {
+    margin: 0%;
+}
+
+.nova_tarefa {
+    display: grid;
+    gap: 1rem;
+}
+
+.nova_tarefa .descricao_tarefa {
+    display: grid;
+    gap: 0.7rem;
+}
+
+.nova_tarefa .termino_tarefa {
+    display: grid;
+    gap: 0.7rem;
+}
+
+.nova_tarefa .btns_tarefa div {
+    display: inline-block;
+}
+
+.btns_tarefa .btn_adc {
+    text-align: end;
+}
+
+.btns_tarefa .btn_lmp {
+    text-align: start;
+}
+
+.convidar_usuario h2{
+    margin-bottom: 1rem;
+}
+
+.convidar_usuario .convidar_select {
+    width: 12rem;
 }

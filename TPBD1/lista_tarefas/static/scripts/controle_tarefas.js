@@ -16,8 +16,40 @@ function cria_tarefa(id_lista){
         if (data.success){
             alert("Tarefa criada com sucesso")
             console.log(data)
-            texto = '<div class="tarefa" id="tarefa__' + data.tarefa.id + '">' + data.tarefa.descricao + '<input type="checkbox" id="checkbox__'
-            texto += data.tarefa.id + '" onclick="attTarefa(' +  data.tarefa.id + ')"><input type="button" onclick="deleteTarefa(' + data.tarefa.id + ')">'
+            texto = '<div class="tarefa" id="tarefa__' + data.tarefa.id + '">'
+            texto += '<tag>' + data.tarefa.descricao + '</tag>'
+
+            cadastro = new Date(data.tarefa.data_cadastro)
+            a1 = cadastro.getFullYear()
+            m1 = cadastro.getMonth() + 1
+            d1 = cadastro.getDate()
+            h1 = cadastro.getHours()
+            min1 = cadastro.getMinutes() 
+
+            if (m1 < 10) m1 = '0' + m1
+            if (d1 < 10) d1 = '0' + d1
+            if (h1 < 10) h1 = '0' + h1
+            if (min1 < 10) min1 = '0' + min1
+            texto += '<tag>' + d1 + '/' + m1 + '/' + a1 + ' ' + h1 + ':' + min1 + '</tag>'
+
+            texto += '<tag>'
+            if(data.tarefa.data_vencimento) {
+                vencimento = new Date(data.tarefa.data_vencimento)
+                a2 = vencimento.getFullYear()
+                m2 = vencimento.getMonth() + 1
+                d2 = vencimento.getDate()
+                h2 = vencimento.getHours()
+                min2 = vencimento.getMinutes() 
+
+                if (m2 < 10) m2 = '0' + m2
+                if (d2 < 10) d2 = '0' + d2
+                if (h2 < 10) h2 = '0' + h2
+                if (min2 < 10) min2 = '0' + min2
+                texto += d2 + '/' + m2 + '/' + a2 + ' ' + h2 + ':' + min2
+            }
+            texto += '</tag>'
+            texto += '<div><input type="checkbox" class="checkbox_tarefa" id="checkbox__' + data.tarefa.id + '" onclick="attTarefa(' +  data.tarefa.id + ')"></div>' 
+            texto += '<input type="button" onclick="deleteTarefa(' + data.tarefa.id + ')">'
             texto += '<br></div>'
             tarefas.innerHTML += texto
 
@@ -62,7 +94,7 @@ function deleteTarefa(id){
 }
 
 window.addEventListener('load', function() {
-    setInterval(pullBanco, 2000); // 15000 milissegundos = 15 segundos
+    setInterval(pullBanco, 5000); // 15000 milissegundos = 15 segundos
     
 })
 
@@ -72,16 +104,54 @@ function pullBanco(){
     .then(response => response.json())
     .then(data => {
         if (data.success == "True"){
-            texto = ""
+            texto = '<div class="tarefa" id="header_tarefas">'
+            texto += '<tag>Descrição da tarefa</tag>'
+            texto += '<tag>Data de Criação</tag>'
+            texto += '<tag>Data de Vencimento</tag>'
+            texto += '<tag>Concluída?</tag>'
+            texto += '<tag>Deletar?</tag>'
+            texto += '</div>'
             if (data.tarefas.length != 0){
                 data.tarefas.forEach(function(tarefa) {
                     // Acessa os valores de cada item
-                    texto += '<div class="tarefa" id="tarefa__' + tarefa.id + '">' + tarefa.descricao + '<input type="checkbox" id="checkbox__'
-                    texto += tarefa.id + '" onclick="attTarefa(' +  tarefa.id + ')" '
+                    texto += '<div class="tarefa" id="tarefa__' + tarefa.id + '">'
+                    texto += '<tag>' + tarefa.descricao + '</tag>'
+
+                    cadastro = new Date(tarefa.data_cadastro)
+                    a1 = cadastro.getFullYear()
+                    m1 = cadastro.getMonth() + 1
+                    d1 = cadastro.getDate()
+                    h1 = cadastro.getHours()
+                    min1 = cadastro.getMinutes() 
+
+                    if (m1 < 10) m1 = '0' + m1
+                    if (d1 < 10) d1 = '0' + d1
+                    if (h1 < 10) h1 = '0' + h1
+                    if (min1 < 10) min1 = '0' + min1
+                    texto += '<tag>' + d1 + '/' + m1 + '/' + a1 + ' ' + h1 + ':' + min1 + '</tag>'
+
+                    texto += '<tag>' 
+                    if(tarefa.data_vencimento) {
+                        vencimento = new Date(tarefa.data_vencimento)
+                        a2 = vencimento.getFullYear()
+                        m2 = vencimento.getMonth() + 1
+                        d2 = vencimento.getDate()
+                        h2 = vencimento.getHours()
+                        min2 = vencimento.getMinutes() 
+
+                        if (m2 < 10) m2 = '0' + m2
+                        if (d2 < 10) d2 = '0' + d2
+                        if (h2 < 10) h2 = '0' + h2
+                        if (min2 < 10) min2 = '0' + min2
+                        texto += d2 + '/' + m2 + '/' + a2 + ' ' + h2 + ':' + min2
+                    }
+                    texto += '</tag>'
+                    texto += '<div><input type="checkbox" class="checkbox_tarefa" id="checkbox__' + tarefa.id + '" onclick="attTarefa(' +  tarefa.id + ')" '
                     if (tarefa.checked){
                         texto += "checked"
                     }
-                    texto += '><button onclick="deleteTarefa(' + tarefa.id + ')"><img src="../static/icons/trash_can.png" width="24px"></button>'
+                    texto += '></div>' 
+                    texto += '<button onclick="deleteTarefa(' + tarefa.id + ')"><img src="../static/icons/trash_can.png" width="24px"></button>'
                     texto += '<br></div>'
                 })
                 tarefas.innerHTML = texto
@@ -98,4 +168,11 @@ function pullBanco(){
     .catch(error => {
         console.error(error);
     });
+}
+
+function limpar_campos() {
+    const tarefa = document.getElementById("texto_tarefa")
+    const dia = document.getElementById("date")
+    tarefa.value = ""
+    dia.value = ""
 }

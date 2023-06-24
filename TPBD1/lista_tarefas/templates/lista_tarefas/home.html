@@ -15,25 +15,42 @@
     {% if user.is_authenticated %}
         <h2>Listas</h2>
         <div id="listas">
+            <div class="lista" id="header_listas">
+                <tag>Nome da lista</tag>
+                <tag>Data de criação</tag>
+                <tag>Data da última modificação</tag>
+                <tag>Responsável pela modificação</tag>
+            </div>
             {% for lista in listas %}
-                <a href="{% url 'lista' id=lista.id_lista %}">{{ lista.nome_descritivo }}</a><br>
+                <a class="lista" href="{% url 'lista' id=lista.id_lista %}">
+                    <tag>{{ lista.nome_descritivo }}</tag>
+                    <tag>{{ lista.data_hora_criacao|date:"d/m/Y H:i" }}</tag>
+                    <tag>{{ lista.data_hora_modificacao|date:"d/m/Y H:i" }}</tag>
+                    <tag>{{ lista.responsavel_modificacao }}</tag>
+                </a>
             {% empty %}
                 Você não está em nenhuma lista
             {% endfor %}
         </div>
-        <h2>Criar Lista</h2>
-        <input class="form-control" autofocus type="text" name="nome" placeholder="Nome da Lista" id="nome_lista">
-        <input class="btn btn-primary" type="button" value="Registrar" onclick='criar_Lista()'>
-        <h2>Convites</h2>
-        <button onclick="pullBancoConvite()">Atualizar convite</button>
-        <div id="convites">
-            {% for convite in convites %}
-                Convite da lista {{ convite.fk_lista.nome_descritivo }}<br>
-                <a href="{% url 'responder_convite' id_lista=convite.fk_lista.id_lista id_usuario=usuario.nome_usuario resposta=0 %}">Recusar</a><br>
-                <a href="{% url 'responder_convite' id_lista=convite.fk_lista.id_lista id_usuario=usuario.nome_usuario resposta=1 %}">Aceitar</a><br>
-            {% empty %}
-                Você não recebeu nenhum convite
-            {% endfor %}
+        <div class="funcionalidade_adicional_listas">
+            <div>
+                <h2>Criar Lista</h2>
+                <input class="form-control" autofocus type="text" name="nome" placeholder="Nome da Lista" id="nome_lista">
+                <input class="btn btn-primary" type="button" value="Registrar" onclick='criar_Lista()'>
+            </div>
+            <div>
+                <h2>Convites</h2>
+                <button onclick="pullBancoConvite()">Atualizar convite</button>
+                <div id="convites">
+                    {% for convite in convites %}
+                        Convite da lista {{ convite.fk_lista.nome_descritivo }}<br>
+                        <a href="{% url 'responder_convite' id_lista=convite.fk_lista.id_lista id_usuario=usuario.nome_usuario resposta=1 %}">Aceitar</a><br>
+                        <a href="{% url 'responder_convite' id_lista=convite.fk_lista.id_lista id_usuario=usuario.nome_usuario resposta=0 %}">Recusar</a><br>
+                    {% empty %}
+                        Você não recebeu nenhum convite
+                    {% endfor %}
+                </div>
+            </div>
         </div>
     {% else %}
         <div class="container">

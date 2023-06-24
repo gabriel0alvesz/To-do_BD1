@@ -203,6 +203,8 @@ def criar_tarefa(request,id_lista,texto_tarefa,date):
         'tarefa': {
             "id": tarefa.id_tarefa,
             "descricao": tarefa.descricao,
+            "data_cadastro": tarefa.data_cadastro,
+            "data_vencimento": tarefa.data_vencimento
         }
     }
     return JsonResponse(data)
@@ -210,7 +212,7 @@ def criar_tarefa(request,id_lista,texto_tarefa,date):
 def att_tarefa(request,id_tarefa,atualizacao):
     tarefa = Tarefas.objects.get(id_tarefa=id_tarefa)
 
-    lista = ListaDeTarefas.objects.get(id_lista=tarefa.fk_lista)
+    lista = ListaDeTarefas.objects.get(id_lista=tarefa.fk_lista.id_lista)
     timezone_offset = -3.0 
     tzinfo = timezone(timedelta(hours=timezone_offset))
     hora_modificacao = datetime.now(tzinfo)
@@ -239,6 +241,8 @@ def pullBancoTarefas(request, id_lista):
             aux = {}
             aux["id"] = tarefa.id_tarefa
             aux["descricao"] = tarefa.descricao
+            aux["data_cadastro"] = tarefa.data_cadastro
+            aux["data_vencimento"] = tarefa.data_vencimento
             aux["checked"] = tarefa.tarefa_concluida
             data["tarefas"].append(aux)
     except:
@@ -249,15 +253,25 @@ def pullBancoTarefas(request, id_lista):
     return JsonResponse(data)
 
 def pullBancoListas(request):
-    listas = funcoes.listas_usuario(request.user.nome_usuario)
-    data = {
-        "listas": [],
-    }    
-    for lista in listas:
-        aux = {}
-        aux["id"] = lista.id_lista
-        aux["texto"] = lista.nome_descritivo
-        data["listas"].append(aux)
+    try:
+        listas = funcoes.listas_usuario(request.user.nome_usuario)
+        data = {
+            "success": "True", 
+            "listas": [],
+        }    
+        for lista in listas:
+            aux = {}
+            aux["id"] = lista.id_lista
+            aux["texto"] = lista.nome_descritivo
+            aux["criacao"] = lista.data_hora_criacao
+            aux["modificacao"] = lista.data_hora_modificacao
+            aux["responsavel"] = lista.responsavel_modificacao
+            data["listas"].append(aux)
+    except:
+        data = {
+            "success": "False",
+        }
+    
     return JsonResponse(data)
 
 def pullBancoConvites(request):
