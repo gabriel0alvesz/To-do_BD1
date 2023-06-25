@@ -18,17 +18,18 @@
             <div>{{ message }}</div>
         {% endif %}
 
-        <form action="{% url 'login' %}" method="post">
+        <form action="{% url 'login' %}" class="form_usuario" method="post">
             {% csrf_token %}
             <div class="form-group">
+                <label class="form-label">Digite o seu nome de usuário: </label>
                 <input autofocus class="form-control" type="text" name="username" placeholder="Nome de usuário">
             </div>
             <div class="form-group">
+                <label class="form-label">Digite a sua senha: </label>
                 <input class="form-control" type="password" name="password" placeholder="Senha">
             </div>
-            <input class="btn btn-primary" type="submit" value="Login">
+            <input class="form-button" type="submit" value="Login">
         </form>
-
-        Don't have an account? <a href="{% url 'registrar' %}">Registrar aqui.</a>
+        <div>Não possue uma conta? <a href="{% url 'registrar' %}">Registrar aqui.</a></div>
     </div>
 {% endblock %}

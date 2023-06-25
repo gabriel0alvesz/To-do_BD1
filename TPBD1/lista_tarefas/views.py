@@ -9,6 +9,8 @@ from . import funcoes
 from datetime import datetime, timezone, timedelta
 from django.http import JsonResponse
 
+from re import findall
+
 # Create your views here.
 
 def home(request):
@@ -68,6 +70,8 @@ def registrar(request):
         email = request.POST["email"]
         nome = request.POST["nome"]
         telefone = request.POST["telefone"]
+        telefone = findall(r'\d+', telefone)
+        telefone = ''.join(telefone)
 
         # Ensure password matches confirmation
         password = request.POST["password"]
@@ -136,6 +140,7 @@ def view_lista(request,id):
 
         try:
             usuario = request.user
+            convites = Convite.objects.filter(fk_nome_usuario_rec=usuario,aceito=0)
         except:
             usuario = None
             
@@ -153,6 +158,7 @@ def view_lista(request,id):
             "perm": booleana,
             "usuario": usuario,
             "nao_convidado": nao_convidado,
+            "convites": convites
         })
     except:
         return HttpResponseRedirect(reverse("erro"))

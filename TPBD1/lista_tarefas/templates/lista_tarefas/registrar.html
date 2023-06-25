@@ -6,7 +6,21 @@
 {% endblock %}
 
 {% block style %}
-    <link rel="stylesheet" href="{% static 'styles/login.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/registrar.css' %}">
+    <script type="text/javascript">
+        const handlePhone = (event) => {
+            let input = event.target
+            input.value = phoneMask(input.value)
+        }
+          
+        const phoneMask = (value) => {
+            if (!value) return ""
+            value = value.replace(/\D/g,'')
+            value = value.replace(/(\d{2})(\d)/,"($1) $2")
+            value = value.replace(/(\d)(\d{4})$/,"$1-$2")
+            return value
+        }
+    </script>
 {% endblock %}
 
 {% block body %}
@@ -19,30 +33,36 @@
             <div>{{ message }}</div>
         {% endif %}
 
-        <form action="{% url 'registrar' %}" method="post">
+        <form action="{% url 'registrar' %}" class="form_usuario" method="post">
             {% csrf_token %}
             <div class="form-group">
+                <label class="form-label">Digite um nome de usuário: </label>
                 <input class="form-control" autofocus type="text" name="username" placeholder="Nome de Usuário">
             </div>
             <div class="form-group">
+                <label class="form-label">Digite seu email: </label>
                 <input class="form-control" type="email" name="email" placeholder="Endereço de Email">
             </div>
             <div class="form-group">
+                <label class="form-label">Digite uma senha: </label>
                 <input class="form-control" type="password" name="password" placeholder="Senha" maxlength=64>
             </div>
             <div class="form-group">
+                <label class="form-label">Confirme sua senha: </label>
                 <input class="form-control" type="password" name="confirmation" placeholder="Confirmar Senha" maxlength=64>
             </div>
             <div class="form-group">
+                <label class="form-label">Digite o seu nome: </label>
                 <input class="form-control" type="text" name="nome" placeholder="Nome">
             </div>
             <div class="form-group">
-                <input class="form-control" type="text" name="telefone" placeholder="Telefone">
+                <label class="form-label">Digite o seu telefone: </label>
+                <input class="form-control" id="txtTelefone" type="tel" name="telefone" placeholder="Telefone" maxlength=11 onkeyup="handlePhone(event)" >
             </div>
             <input class="btn btn-primary" type="submit" value="Registrar">
         </form>
 
-        Já tem uma conta? <a href="{% url 'login' %}">Logue por aqui.</a>
+        <div>Já tem uma conta? <a href="{% url 'login' %}">Logue por aqui.</a></div>
 
     </div>
 

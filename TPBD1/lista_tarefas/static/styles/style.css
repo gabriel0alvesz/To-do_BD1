@@ -11,6 +11,27 @@ body {
     filter: invert(1);
 }
 
+.flexCenter {
+    margin: auto;
+    width: fit-content;
+    display: grid;
+    gap: 1rem;
+}
+
+.form_usuario {
+    display: grid;
+    gap: 1rem;
+}
+
+.form-group {
+    display: grid;
+    gap: 0.7rem;
+}
+
+.form-button {
+    text-align: center;
+}
+
 .main_nav {
     display: flex;
     flex-wrap: nowrap;
