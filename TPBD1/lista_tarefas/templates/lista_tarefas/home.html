@@ -32,37 +32,12 @@
                 Você não está em nenhuma lista
             {% endfor %}
         </div>
-        <div class="funcionalidade_adicional_listas">
-            <div class="criar_lista">
-                <h2>Criar Lista</h2>
-                <div class="nome_descritivo">
-                    <label class="nome_desc" for="nome_lista">Dê um nome descritivo para a lista: </label>
-                    <input class="form-control" autofocus type="text" name="nome" placeholder="Nome da Lista" id="nome_lista">
-                </div>
+        <div class="criar_lista">
+            <h2>Criar Lista</h2>
+            <div class="nome_descritivo">
+                <label class="nome_desc" for="nome_lista">Dê um nome descritivo para a lista: </label>
+                <input class="form-control" autofocus type="text" name="nome" placeholder="Nome da Lista" id="nome_lista">
                 <div class="btn_criar_lista"><button onclick="criar_Lista()">Registrar lista</button></div>
-            </div>
-            <div class="vl"></div>
-            <div class="convites">
-                <h2>Convites</h2>
-                <div id="convites">
-                    {% if convites|length > 0 %}
-                        <div class="convite" id="header_convites">
-                            <tag>Convite da lista</tag>
-                            <tag>Aceitar?</tag>
-                            <tag>Recusar?</tag>
-                        </div>
-                        {% for convite in convites %}
-                            <div class="convite">
-                                <tag>{{ convite.fk_lista.nome_descritivo }}</tag>
-                                <tag><a href="{% url 'responder_convite' id_lista=convite.fk_lista.id_lista id_usuario=usuario.nome_usuario resposta=1 %}"><img src="{% static 'icons/check_mark.png' %}" width="24px"></a></tag>
-                                <tag><a href="{% url 'responder_convite' id_lista=convite.fk_lista.id_lista id_usuario=usuario.nome_usuario resposta=0 %}"><img src="{% static 'icons/checkbox_cross.png' %}" width="24px"></a></tag>
-                            </div>
-                        {% endfor %}
-                    {% else %}
-                        Você não recebeu nenhum convite
-                    {% endif %}
-                </div>
-                <div><button onclick="pullBancoConvite()">Atualizar convites</button></div>
             </div>
         </div>
     {% else %}

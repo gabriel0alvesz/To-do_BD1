@@ -291,6 +291,7 @@ def pullBancoConvites(request):
     for convite in convites:
         aux = {}
         aux["nome_lista"] = convite.fk_lista.nome_descritivo
+        aux["dono_lista"] = convite.fk_nome_usuario_env.nome_usuario
         aux["id_lista"] = convite.fk_lista.id_lista
         aux["usuario"] = request.user.nome_usuario
         data["convites"].append(aux)

@@ -16,6 +16,35 @@
             <h2 class="main_nav_title">Bem-Vindo {{ usuario.nome }}</h2>
             <ul class="main_nav_options">
                 <li><a href="{% url 'home' %}"><img src="{% static 'icons/home.svg' %}" alt="Home" class="icon_home">Home</a></li>
+                <li>
+                    <div class="dropdown_convites">
+                        <button class="drop_convites_btn" onclick="show_convites()"><img src="{% static 'icons/message-envelope.svg' %}" alt="Home" class="icon_home">Convites</button>
+                        <div id="dropdown_convites_content" style="display: none;">
+                            <div id="convites">
+                                {% if convites|length > 0 %}
+                                    <div class="convite" id="header_convites">
+                                        <tag>Convite da lista</tag>
+                                        <tag>Dono da lista</tag>
+                                        <tag id="tag_aceitar_recusar">Aceitar/Recusar</tag>
+                                    </div>
+                                    {% for convite in convites %}
+                                        <div class="convite">
+                                            <tag>{{ convite.fk_lista.nome_descritivo }}</tag>
+                                            <tag>{{ convite.fk_nome_usuario_env.nome_usuario }}</tag>
+                                            <div class="aceitar_recusar">
+                                                <a href="{% url 'responder_convite' id_lista=convite.fk_lista.id_lista id_usuario=usuario.nome_usuario resposta=1 %}"><img src="{% static 'icons/check_mark.png' %}" width="24px"></a>
+                                                <div class="vl"></div>
+                                                <a href="{% url 'responder_convite' id_lista=convite.fk_lista.id_lista id_usuario=usuario.nome_usuario resposta=0 %}"><img src="{% static 'icons/checkbox_cross.png' %}" width="24px"></a>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    Você não recebeu nenhum convite
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </li>
                 <li><a href="{% url 'logout' %}"><img src="{% static 'icons/logout.svg' %}" alt="Desconectar" class="icon_home">Desconectar</a></li>
             </ul>
         {% else %}

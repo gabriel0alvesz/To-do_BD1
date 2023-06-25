@@ -67,3 +67,70 @@ body {
 .corpo h2 {
     margin: 0;
 }
+
+.dropdown_convites {
+    position: relative;
+}
+
+.drop_convites_btn {
+  padding: 1rem;
+  font-size: 1rem;
+  border: none;
+  color: white;
+  background-color: hsla(245, 7%, 19%, 1);
+  cursor: pointer;
+}
+
+.drop_convites_btn:hover { background-color: hsla(249, 7%, 27%, 1); }
+
+#dropdown_convites_content {
+    position: absolute;
+    background-color: hsla(249, 7%, 27%, 1);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    min-width: 41rem;
+    right: 0;
+    padding: 1rem;
+}
+
+#dropdown_convites_content a{
+    padding: 0;
+}
+
+.convites {
+    display: grid;
+    gap: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+#header_convites {
+    padding-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+#tag_aceitar_recusar {
+    text-align: center;
+}
+
+.convite {
+    display: grid;
+    grid-template-columns: 50% 30% 20%;
+    padding-bottom: 1rem;
+}
+
+#convites a {
+    text-decoration: none;
+}
+
+.aceitar_recusar {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.aceitar_recusar .vl {
+    height: 100%;
+    border: 1px solid hsla(45, 2%, 89%, 1);
+}

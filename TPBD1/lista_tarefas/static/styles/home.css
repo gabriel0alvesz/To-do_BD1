@@ -57,27 +57,6 @@
 
 .criar_lista .nome_descritivo {
     display: grid;
-    gap: 0.7rem;
-}
-
-.convites {
-    display: grid;
-    gap: 1rem;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-}
-
-#header_convites {
-    padding-bottom: 1rem;
-    font-size: 1.2rem;
-}
-
-.convite {
-    display: grid;
-    grid-template-columns: 60% 20% 20%;
-    padding-bottom: 1rem;
-}
-
-#convites a {
-    text-decoration: none;
+    grid-template-columns: 20% 39% 39%;
+    gap: 1%;
 }
