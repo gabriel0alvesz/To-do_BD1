@@ -15,7 +15,7 @@ function criar_Lista(){
             data.items.forEach(function(item) {
                 // Acessa os valores de cada item'
                 texto += '<a class="lista" href="lista/' + item.id + '">'
-                texto += '<tag>' + item.nome_descritivo + '</tag>'
+                texto += '<tag>' + item.nome + '</tag>'
 
                 criacao = new Date(item.criacao)
                 a1 = criacao.getFullYear()
