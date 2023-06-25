@@ -45,20 +45,22 @@
             <div class="convites">
                 <h2>Convites</h2>
                 <div id="convites">
-                    <div class="convite" id="header_convites">
-                        <tag>Convite da lista</tag>
-                        <tag>Aceitar?</tag>
-                        <tag>Recusar?</tag>
-                    </div>
-                    {% for convite in convites %}
-                        <div class="convite">
-                            <tag>{{ convite.fk_lista.nome_descritivo }}</tag>
-                            <tag><a href="{% url 'responder_convite' id_lista=convite.fk_lista.id_lista id_usuario=usuario.nome_usuario resposta=1 %}"><img src="{% static 'icons/check_mark.png' %}" width="24px"></a></tag>
-                            <tag><a href="{% url 'responder_convite' id_lista=convite.fk_lista.id_lista id_usuario=usuario.nome_usuario resposta=0 %}"><img src="{% static 'icons/checkbox_cross.png' %}" width="24px"></a></tag>
+                    {% if convites|length > 0 %}
+                        <div class="convite" id="header_convites">
+                            <tag>Convite da lista</tag>
+                            <tag>Aceitar?</tag>
+                            <tag>Recusar?</tag>
                         </div>
-                    {% empty %}
+                        {% for convite in convites %}
+                            <div class="convite">
+                                <tag>{{ convite.fk_lista.nome_descritivo }}</tag>
+                                <tag><a href="{% url 'responder_convite' id_lista=convite.fk_lista.id_lista id_usuario=usuario.nome_usuario resposta=1 %}"><img src="{% static 'icons/check_mark.png' %}" width="24px"></a></tag>
+                                <tag><a href="{% url 'responder_convite' id_lista=convite.fk_lista.id_lista id_usuario=usuario.nome_usuario resposta=0 %}"><img src="{% static 'icons/checkbox_cross.png' %}" width="24px"></a></tag>
+                            </div>
+                        {% endfor %}
+                    {% else %}
                         Você não recebeu nenhum convite
-                    {% endfor %}
+                    {% endif %}
                 </div>
                 <div><button onclick="pullBancoConvite()">Atualizar convites</button></div>
             </div>

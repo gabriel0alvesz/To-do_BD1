@@ -13,11 +13,11 @@ function pullBancoConvite(){
                 // Acessa os valores de cada item
                 texto += '<div class="convite">'
                 texto += '<tag>' + convite.nome_lista + '</tag>'
-                texto += '<tag><a href="responder_convite/"' + convite.id_lista + '/' + convite.usuario + '/1"><img src="static/icons/check_mark.png" width="24px"></a></tag>'
-                texto += '<tag><a href="responder_convite/"' + convite.id_lista + '/' + convite.usuario + '/0"><img src="static/icons/checkbox_cross.png" width="24px"></a></tag>'    
+                texto += '<tag><a href="responder_convite/' + convite.id_lista + '/' + convite.usuario + '/1"><img src="static/icons/check_mark.png" width="24px"></a></tag>'
+                texto += '<tag><a href="responder_convite/' + convite.id_lista + '/' + convite.usuario + '/0"><img src="static/icons/checkbox_cross.png" width="24px"></a></tag>'    
                 texto += '</div>'        
             })
-            convites.innerHTML = texto
+            if (convites.innerHTML != texto) convites.innerHTML = texto
         }
         else{
             convites.innerHTML = "Você não recebeu nenhum convite"

@@ -22,25 +22,27 @@
     </h2>
     {% if perm %}
         <div class="tarefas">
-            <div class="tarefa" id="header_tarefas">
-                <tag>Descrição da tarefa</tag>
-                <tag>Data de Criação</tag>
-                <tag>Data de Vencimento</tag>
-                <tag>Concluída?</tag>
-                <tag>Deletar?</tag>
-            </div>
-            {% for tarefa in tarefas %}
-            <div class="tarefa" id="tarefa__{{ tarefa.id_tarefa }}">
-                <tag>{{ tarefa.descricao }}</tag>
-                <tag>{{ tarefa.data_cadastro|date:"d/m/Y H:i" }}</tag>
-                <tag>{{ tarefa.data_vencimento|date:"d/m/Y H:i" }}</tag>
-                <div><input type="checkbox" class="checkbox_tarefa" id="checkbox__{{ tarefa.id_tarefa }}" onclick="attTarefa({{ tarefa.id_tarefa }})" {% if tarefa.tarefa_concluida %}checked{% endif %}></div>
-                <button onclick="deleteTarefa({{ tarefa.id_tarefa }})"><img src="{% static 'icons/trash_can.png' %}" width="24px"></button>
-                <br>
-            </div>
-            {% empty %}
+            {% if tarefas|length > 0 %}
+                <div class="tarefa" id="header_tarefas">
+                    <tag>Descrição da tarefa</tag>
+                    <tag>Data de Criação</tag>
+                    <tag>Data de Vencimento</tag>
+                    <tag>Concluída?</tag>
+                    <tag>Deletar?</tag>
+                </div>
+                {% for tarefa in tarefas %}
+                <div class="tarefa" id="tarefa__{{ tarefa.id_tarefa }}">
+                    <tag>{{ tarefa.descricao }}</tag>
+                    <tag>{{ tarefa.data_cadastro|date:"d/m/Y H:i" }}</tag>
+                    <tag>{{ tarefa.data_vencimento|date:"d/m/Y H:i" }}</tag>
+                    <div><input type="checkbox" class="checkbox_tarefa" id="checkbox__{{ tarefa.id_tarefa }}" onclick="attTarefa({{ tarefa.id_tarefa }})" {% if tarefa.tarefa_concluida %}checked{% endif %}></div>
+                    <button onclick="deleteTarefa({{ tarefa.id_tarefa }})"><img src="{% static 'icons/trash_can.png' %}" width="24px"></button>
+                    <br>
+                </div>
+                {% endfor %}
+            {% else %}
                 Não existe nenhuma tarefa nesta Lista
-            {% endfor %}
+            {% endif %}
         </div>
         
         <div class="funcionalidade_adicional_tarefas">

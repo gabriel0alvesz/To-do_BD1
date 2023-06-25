@@ -120,6 +120,9 @@ def criar_lista(request, nome):
             aux = {}
             aux["id"] = item.id_lista
             aux["nome"] = item.nome_descritivo
+            aux["criacao"] = item.data_hora_criacao
+            aux["modificacao"] = item.data_hora_modificacao
+            aux["responsavel"] = item.responsavel_modificacao
             data["items"].append(aux)
         
         return JsonResponse(data)
@@ -164,9 +167,12 @@ def criar_convite(request,id_lista,usuario):
     if request.method == 'POST':
         lista = ListaDeTarefas.objects.get(id_lista=id_lista)
         usuario_env = Usuario.objects.get(nome_usuario=usuario)
-        usuario_rec = Usuario.objects.get(nome_usuario=request.POST["valor_selecionado"])
-        convite = Convite(fk_nome_usuario_env=usuario_env, fk_nome_usuario_rec=usuario_rec, fk_lista=lista,aceito=0)
-        convite.save()
+        try:
+            usuario_rec = Usuario.objects.get(nome_usuario=request.POST["valor_selecionado"])
+            convite = Convite(fk_nome_usuario_env=usuario_env, fk_nome_usuario_rec=usuario_rec, fk_lista=lista,aceito=0)
+            convite.save()
+        except:
+            pass
         return HttpResponseRedirect(reverse("lista",None,[id_lista]))
 
 def responder_convite(request,id_lista,id_usuario,resposta):
@@ -226,7 +232,10 @@ def att_tarefa(request,id_tarefa,atualizacao):
     
     tarefa.delete()
 
-    return JsonResponse({'success': False})
+    if len(Tarefas.objects.filter(fk_lista=tarefa.fk_lista.id_lista)) == 0:
+        return JsonResponse({'success': False,'vazio': True})
+
+    return JsonResponse({'success': False, 'vazio': False})
 
 def pullBancoTarefas(request, id_lista):
     try:

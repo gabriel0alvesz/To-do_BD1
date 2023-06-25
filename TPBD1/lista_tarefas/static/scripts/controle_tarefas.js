@@ -49,9 +49,18 @@ function cria_tarefa(id_lista){
             }
             texto += '</tag>'
             texto += '<div><input type="checkbox" class="checkbox_tarefa" id="checkbox__' + data.tarefa.id + '" onclick="attTarefa(' +  data.tarefa.id + ')"></div>' 
-            texto += '<input type="button" onclick="deleteTarefa(' + data.tarefa.id + ')">'
+            texto += '<button onclick="deleteTarefa(' + tarefa.id + ')"><img src="../static/icons/trash_can.png" width="24px"></button>'
             texto += '<br></div>'
-            tarefas.innerHTML += texto
+
+            if (tarefas.innerHTML != "Não existe nenhuma tarefa nesta Lista"){
+                tarefas.innerHTML += texto
+            }
+            else{
+                aux = '<div class="tarefa" id="header_tarefas">'
+                aux += '<tag>Descrição da tarefa</tag><tag>Data de Criação</tag>'
+                aux += '<tag>Data de Vencimento</tag><tag>Concluída?</tag><tag>Deletar?</tag></div>'
+                tarefas.innerHTML = aux + texto
+            }
 
             tarefa.value = ""
             dia.value = ""
@@ -86,6 +95,10 @@ function deleteTarefa(id){
             var tarefa = document.getElementById("tarefa__" + id)
             tarefa.remove()
             alert("Tarefa deletada com sucesso")
+            if (data.vazio){
+                const tarefas = document.getElementsByClassName("tarefas")[0]
+                tarefas.innerHTML = "Não existe nenhuma tarefa nesta Lista"
+            }
         }
     })
     .catch(error => {
@@ -103,15 +116,16 @@ function pullBanco(){
     fetch('../../pullBancoTarefas/' + lista)
     .then(response => response.json())
     .then(data => {
+        texto = ""
         if (data.success == "True"){
-            texto = '<div class="tarefa" id="header_tarefas">'
-            texto += '<tag>Descrição da tarefa</tag>'
-            texto += '<tag>Data de Criação</tag>'
-            texto += '<tag>Data de Vencimento</tag>'
-            texto += '<tag>Concluída?</tag>'
-            texto += '<tag>Deletar?</tag>'
-            texto += '</div>'
             if (data.tarefas.length != 0){
+                texto = '<div class="tarefa" id="header_tarefas">'
+                texto += '<tag>Descrição da tarefa</tag>'
+                texto += '<tag>Data de Criação</tag>'
+                texto += '<tag>Data de Vencimento</tag>'
+                texto += '<tag>Concluída?</tag>'
+                texto += '<tag>Deletar?</tag>'
+                texto += '</div>'
                 data.tarefas.forEach(function(tarefa) {
                     // Acessa os valores de cada item
                     texto += '<div class="tarefa" id="tarefa__' + tarefa.id + '">'
@@ -154,16 +168,9 @@ function pullBanco(){
                     texto += '<button onclick="deleteTarefa(' + tarefa.id + ')"><img src="../static/icons/trash_can.png" width="24px"></button>'
                     texto += '<br></div>'
                 })
-                tarefas.innerHTML = texto
+                if (tarefas.innerHTML != texto) tarefas.innerHTML = texto
             }
             else{
-                texto = '<div class="tarefa" id="header_tarefas">'
-                texto += '<tag>Descrição da tarefa</tag>'
-                texto += '<tag>Data de Criação</tag>'
-                texto += '<tag>Data de Vencimento</tag>'
-                texto += '<tag>Concluída?</tag>'
-                texto += '<tag>Deletar?</tag>'
-                texto += '</div>'
                 texto += "Não existe nenhuma tarefa nesta Lista"
                 tarefas.innerHTML = texto
             }
