@@ -23,10 +23,20 @@ def home(request):
         usuario = request.user
         listas = funcoes.listas_usuario(usuario.nome_usuario)
         convites = Convite.objects.filter(fk_nome_usuario_rec=usuario,aceito=0)
+        return render(request, "lista_tarefas/home.html", {
+            "title": "Home",
+            "usuario": usuario,
+            "usuarios": usuarios,
+            "listas": listas,
+            "tarefas": tarefas,
+            "convites": convites,
+        })
     else:
         usuario = None
         convites = None
-        
+        return render(request, "lista_tarefas/login.html", {
+            "title": "Login"
+        })
     return render(request, "lista_tarefas/home.html", {
         "title": "Home",
         "usuario": usuario,
@@ -94,7 +104,7 @@ def registrar(request):
         except IntegrityError:
             return render(request, "lista_tarefas/registrar.html", {
                 "title": "Registrar",
-                "message": "Usuário já utilizado."
+                "message": "Nome de usuário já utilizado."
             })
         login(request, user)
         return HttpResponseRedirect(reverse("home"))

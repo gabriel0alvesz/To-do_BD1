@@ -18,7 +18,7 @@
     <h2 class="nome_lista">
         Lista de tarefas: {{ lista.nome_descritivo }}
         {% if usuario.nome_usuario == lista.fk_nome_usuario.nome_usuario %}
-            <a class="deleta_lista" href="{% url 'delete_lista' id_lista=lista.id_lista %}"><img src="{% static 'icons/trash_can.png' %}" width="24px"></a>
+            <a class="deleta_lista" href="{% url 'delete_lista' id_lista=lista.id_lista %}"><img src="{% static 'icons/trash_can.png' %}" width="32px"></a>
         {% endif %}
     </h2>
     {% if perm %}
@@ -38,14 +38,13 @@
                     <tag>{{ tarefa.data_vencimento|date:"d/m/Y H:i" }}</tag>
                     <div><input type="checkbox" class="checkbox_tarefa" id="checkbox__{{ tarefa.id_tarefa }}" onclick="attTarefa({{ tarefa.id_tarefa }})" {% if tarefa.tarefa_concluida %}checked{% endif %}></div>
                     <button onclick="deleteTarefa({{ tarefa.id_tarefa }})"><img src="{% static 'icons/trash_can.png' %}" width="24px"></button>
-                    <br>
                 </div>
                 {% endfor %}
             {% else %}
                 Não existe nenhuma tarefa nesta Lista
             {% endif %}
         </div>
-        
+
         <div class="funcionalidade_adicional_tarefas">
             <div class="nova_tarefa">
                 <h2>Adicionar uma Tarefa</h2>
@@ -77,7 +76,7 @@
                         <button type="submit">Enviar</button>
                     </form>
                 {% else %}
-                    <br>Não existe nenhum outro usuário para convidar
+                    Não existe nenhum outro usuário para convidar
                 {% endif %}
             </div>
         </div>

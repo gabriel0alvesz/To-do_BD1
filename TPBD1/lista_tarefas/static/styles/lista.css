@@ -1,22 +1,26 @@
 .tarefa{
     display: grid;
     grid-template-columns: 40% 20% 20% 10% 10%;
+    padding-top: 1rem;
     padding-bottom: 1rem;
+    border-bottom: 1px solid hsla(245, 7%, 19%, 1);
 }
 
 .checkbox_tarefa {
     height: 1.4rem;
     width: 1.4rem;
+    vertical-align: middle;
 }
 
 .tarefas {
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 #header_tarefas {
     padding-bottom: 1rem;
     font-size: 1.3rem;
+    font-weight: bold;
 }
 
 .tarefas button{
@@ -39,6 +43,8 @@
 }
 
 .funcionalidade_adicional_tarefas {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
     display: grid;
     grid-template-columns: 49% auto 49%;
     gap: 1%;
@@ -76,5 +82,5 @@
 }
 
 .convidar_usuario .convidar_select {
-    width: 12rem;
+    width: 15rem;
 }

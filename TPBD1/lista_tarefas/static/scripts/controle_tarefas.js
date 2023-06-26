@@ -50,7 +50,7 @@ function cria_tarefa(id_lista){
             texto += '</tag>'
             texto += '<div><input type="checkbox" class="checkbox_tarefa" id="checkbox__' + data.tarefa.id + '" onclick="attTarefa(' +  data.tarefa.id + ')"></div>' 
             texto += '<button onclick="deleteTarefa(' + tarefa.id + ')"><img src="../static/icons/trash_can.png" width="24px"></button>'
-            texto += '<br></div>'
+            texto += '</div>'
 
             if (tarefas.innerHTML != "Não existe nenhuma tarefa nesta Lista"){
                 tarefas.innerHTML += texto
@@ -166,7 +166,7 @@ function pullBanco(){
                     }
                     texto += '></div>' 
                     texto += '<button onclick="deleteTarefa(' + tarefa.id + ')"><img src="../static/icons/trash_can.png" width="24px"></button>'
-                    texto += '<br></div>'
+                    texto += '</div>'
                 })
                 if (tarefas.innerHTML != texto) tarefas.innerHTML = texto
             }
