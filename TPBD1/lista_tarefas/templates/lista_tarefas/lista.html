@@ -28,16 +28,18 @@
                     <tag>Descrição da tarefa</tag>
                     <tag>Data de Criação</tag>
                     <tag>Data de Vencimento</tag>
-                    <tag>Concluída?</tag>
-                    <tag>Deletar?</tag>
+                    <tag class="centraliza">Concluída?</tag>
+                    <tag class="centraliza">Alterar?</tag>
+                    <tag class="centraliza">Deletar?</tag>
                 </div>
                 {% for tarefa in tarefas %}
                 <div class="tarefa" id="tarefa__{{ tarefa.id_tarefa }}">
                     <tag>{{ tarefa.descricao }}</tag>
                     <tag>{{ tarefa.data_cadastro|date:"d/m/Y H:i" }}</tag>
                     <tag>{{ tarefa.data_vencimento|date:"d/m/Y H:i" }}</tag>
-                    <div><input type="checkbox" class="checkbox_tarefa" id="checkbox__{{ tarefa.id_tarefa }}" onclick="attTarefa({{ tarefa.id_tarefa }})" {% if tarefa.tarefa_concluida %}checked{% endif %}></div>
-                    <button onclick="deleteTarefa({{ tarefa.id_tarefa }})"><img src="{% static 'icons/trash_can.png' %}" width="24px"></button>
+                    <div class="centraliza"><input type="checkbox" class="checkbox_tarefa" id="checkbox__{{ tarefa.id_tarefa }}" onclick="attTarefa({{ tarefa.id_tarefa }})" {% if tarefa.tarefa_concluida %}checked{% endif %}></div>
+                    <button class="centraliza" onclick="updateTarefa({{ tarefa.id_tarefa }})"><img src="{% static 'icons/alter.png' %}" width="24px"></button>
+                    <button class="centraliza" onclick="deleteTarefa({{ tarefa.id_tarefa }})"><img src="{% static 'icons/trash_can.png' %}" width="24px"></button>
                 </div>
                 {% endfor %}
             {% else %}
@@ -46,7 +48,7 @@
         </div>
 
         <div class="funcionalidade_adicional_tarefas">
-            <div class="nova_tarefa">
+            <div id="nova_tarefa" class="nova_tarefa">
                 <h2>Adicionar uma Tarefa</h2>
                 <div class="descricao_tarefa">
                     <label class="label_desc" for="texto_tarefa">Descreva a tarefa que deseja criar:</label>
@@ -59,6 +61,21 @@
                 <div class="btns_tarefa">
                     <div class="btn_adc"><button onclick="cria_tarefa({{lista.id_lista}})">Criar Tarefa</button></div>
                     <div class="btn_lmp"><button onclick="limpar_campos()">Limpar Campos</button></div>
+                </div>
+            </div>
+            <div id="altera_tarefa" class="altera_tarefa">
+                <h2>Alterar Tarefa</h2>
+                <div class="descricao_tarefa">
+                    <label class="label_desc" for="altera_texto_tarefa">Descrição da tarefa:</label>
+                    <input class="input_desc" type="text" name="altera_texto_tarefa" id="altera_texto_tarefa" maxlength="100">
+                </div>
+                <div class="termino_tarefa">
+                    <label class="label_venc" for="altera_date">Data de vencimento da tarefa (Opcional): </label>
+                    <input class="input_venc" type="datetime-local" id="altera_date" name="altera_date">
+                </div>
+                <div class="btns_tarefa">
+                    <div class="btn_adc"><button id="btn_altera_tarefa" onclick="altera_tarefa()">Alterar Tarefa</button></div>
+                    <div class="btn_cnl"><button onclick="altera_cancela()">Cancelar</button></div>
                 </div>
             </div>
             <div class="vl"></div>

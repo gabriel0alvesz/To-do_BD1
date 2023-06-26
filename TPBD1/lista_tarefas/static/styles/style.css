@@ -90,6 +90,11 @@ img, svg {
     margin: 0;
 }
 
+.spacer {
+    display: inline-block;
+    width: 0.3rem;
+}
+
 .dropdown_convites {
     position: relative;
 }
@@ -113,17 +118,11 @@ img, svg {
     min-width: 50rem;
     right: 0;
     padding: 1rem;
+    padding-top: 0;
 }
 
 #dropdown_convites_content a{
     padding: 0;
-}
-
-.convites {
-    display: grid;
-    gap: 1rem;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
 }
 
 #header_convites {
@@ -139,6 +138,7 @@ img, svg {
 .convite {
     display: grid;
     grid-template-columns: 50% 30% 20%;
+    padding-top: 1rem;
     padding-bottom: 1rem;
     border-bottom: 1px solid white;
 }

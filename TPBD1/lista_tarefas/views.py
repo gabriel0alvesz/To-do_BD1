@@ -231,7 +231,7 @@ def criar_tarefa(request,id_lista,texto_tarefa,date):
     }
     return JsonResponse(data)
     
-def att_tarefa(request,id_tarefa,atualizacao):
+def att_tarefa(request,id_tarefa,atualizacao,concluida):
     tarefa = Tarefas.objects.get(id_tarefa=id_tarefa)
 
     lista = ListaDeTarefas.objects.get(id_lista=tarefa.fk_lista.id_lista)
@@ -242,7 +242,10 @@ def att_tarefa(request,id_tarefa,atualizacao):
     lista.save()
 
     if atualizacao == 1:
-        tarefa.tarefa_concluida = abs(tarefa.tarefa_concluida - 1)
+        if concluida == 'true':
+            tarefa.tarefa_concluida = 1
+        if concluida == 'false':
+            tarefa.tarefa_concluida = 0
         tarefa.save()
         return JsonResponse({'success': True})
     
@@ -252,6 +255,37 @@ def att_tarefa(request,id_tarefa,atualizacao):
         return JsonResponse({'success': False,'vazio': True})
 
     return JsonResponse({'success': False, 'vazio': False})
+
+def atualizar_tarefa(request, id_tarefa, descricao, date):
+    try:
+        tarefa = Tarefas.objects.get(id_tarefa=id_tarefa)
+        
+        lista = ListaDeTarefas.objects.get(id_lista=tarefa.fk_lista.id_lista)
+        timezone_offset = -3.0 
+        tzinfo = timezone(timedelta(hours=timezone_offset))
+        hora_modificacao = datetime.now(tzinfo)
+        lista.data_hora_modificacao = hora_modificacao
+        lista.save()
+        
+        tarefa.descricao = descricao
+        tarefa.save
+    
+        
+        if date != "-1":
+            data_final = datetime.strptime(date, "%Y-%m-%dT%H:%M")
+            data_final = data_final.replace(tzinfo=tzinfo)
+            tarefa.data_vencimento = data_final
+            tarefa.save()
+        else :
+            tarefa.data_vencimento = None
+            tarefa.save()
+        
+        retorno = {'success': True}
+    except:
+        retorno = {'success': False}
+    
+    return JsonResponse(retorno)
+        
 
 def pullBancoTarefas(request, id_lista):
     try:

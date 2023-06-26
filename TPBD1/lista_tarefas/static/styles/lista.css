@@ -1,6 +1,7 @@
 .tarefa{
     display: grid;
-    grid-template-columns: 40% 20% 20% 10% 10%;
+    grid-template-columns: 38.8% 13.8% 13.8% 8.8% 8.8% 8.8%;
+    gap: 1%;
     padding-top: 1rem;
     padding-bottom: 1rem;
     border-bottom: 1px solid hsla(245, 7%, 19%, 1);
@@ -23,6 +24,10 @@
     font-weight: bold;
 }
 
+.centraliza {
+    text-align: center;
+}
+
 .tarefas button{
     border: none;
     background-color: transparent;
@@ -30,7 +35,6 @@
     padding: 0;
     vertical-align: middle;
     width: auto;
-    text-align: start;
 }
 
 .nome_lista {
@@ -55,26 +59,23 @@
     gap: 1rem;
 }
 
-.nova_tarefa .descricao_tarefa {
+.descricao_tarefa {
     display: grid;
     gap: 0.7rem;
 }
 
-.nova_tarefa .termino_tarefa {
+.termino_tarefa {
     display: grid;
     gap: 0.7rem;
 }
 
-.nova_tarefa .btns_tarefa div {
+.btns_tarefa div {
     display: inline-block;
 }
 
-.btns_tarefa .btn_adc {
-    text-align: end;
-}
-
-.btns_tarefa .btn_lmp {
-    text-align: start;
+.altera_tarefa {
+    display: none;
+    gap: 1rem;
 }
 
 .convidar_usuario h2{

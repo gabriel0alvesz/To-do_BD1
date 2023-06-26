@@ -18,10 +18,10 @@
         {% if user.is_authenticated %}
             <h2 class="main_nav_title">Bem-Vindo {{ usuario.nome }}</h2>
             <ul class="main_nav_options">
-                <li><a href="{% url 'home' %}"><img src="{% static 'icons/home.svg' %}" alt="Home" class="icon_home">Home</a></li>
+                <li><a href="{% url 'home' %}"><img src="{% static 'icons/home.svg' %}" alt="Home" class="icon_home"><div class="spacer"></div>Home</a></li>
                 <li>
                     <div class="dropdown_convites">
-                        <button class="drop_convites_btn" onclick="show_convites()"><img src="{% static 'icons/message-envelope.svg' %}" alt="Home" class="icon_home">Convites</button>
+                        <button class="drop_convites_btn" onclick="show_convites()"><img src="{% static 'icons/message-envelope.svg' %}" alt="Home" class="icon_home"><div class="spacer"></div>Convites</button>
                         <div id="dropdown_convites_content" style="display: none;">
                             <div id="convites">
                                 {% if convites|length > 0 %}
@@ -48,14 +48,14 @@
                         </div>
                     </div>
                 </li>
-                <li><a href="{% url 'logout' %}"><img src="{% static 'icons/logout.svg' %}" alt="Desconectar" class="icon_home">Desconectar</a></li>
+                <li><a href="{% url 'logout' %}"><img src="{% static 'icons/logout.svg' %}" alt="Desconectar" class="icon_home"><div class="spacer"></div>Desconectar</a></li>
             </ul>
         {% else %}
             <h2 lass="main_nav_title">Não logado</h2>
             <ul class="main_nav_options">
-                <li><a href="{% url 'home' %}"><img src="{% static 'icons/home.svg' %}" alt="Home" class="icon_home">Home</a></li>
-                <li><a href="{% url 'login' %}"><img src="{% static 'icons/login.svg' %}" alt="Conectar-se" class="icon_home">Conectar-se</a></li>
-                <li><a href="{% url 'registrar' %}"><img src="{% static 'icons/register.svg' %}" alt="Registrar" class="icon_home">Registrar</a></li>
+                <li><a href="{% url 'home' %}"><img src="{% static 'icons/home.svg' %}" alt="Home" class="icon_home"><div class="spacer"></div>Home</a></li>
+                <li><a href="{% url 'login' %}"><img src="{% static 'icons/login.svg' %}" alt="Conectar-se" class="icon_home"><div class="spacer"></div>Conectar-se</a></li>
+                <li><a href="{% url 'registrar' %}"><img src="{% static 'icons/register.svg' %}" alt="Registrar" class="icon_home"><div class="spacer"></div>Registrar</a></li>
             </ul>
         {% endif %}
         </nav>
