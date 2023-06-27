@@ -23,20 +23,9 @@ def home(request):
         usuario = request.user
         listas = funcoes.listas_usuario(usuario.nome_usuario)
         convites = Convite.objects.filter(fk_nome_usuario_rec=usuario,aceito=0)
-        return render(request, "lista_tarefas/home.html", {
-            "title": "Home",
-            "usuario": usuario,
-            "usuarios": usuarios,
-            "listas": listas,
-            "tarefas": tarefas,
-            "convites": convites,
-        })
     else:
         usuario = None
         convites = None
-        return render(request, "lista_tarefas/login.html", {
-            "title": "Login"
-        })
     return render(request, "lista_tarefas/home.html", {
         "title": "Home",
         "usuario": usuario,
@@ -134,6 +123,7 @@ def criar_lista(request, nome):
             aux = {}
             aux["id"] = item.id_lista
             aux["nome"] = item.nome_descritivo
+            aux["criador"] = item.fk_nome_usuario.nome_usuario
             aux["criacao"] = item.data_hora_criacao
             aux["modificacao"] = item.data_hora_modificacao
             aux["responsavel"] = item.responsavel_modificacao
@@ -239,6 +229,7 @@ def att_tarefa(request,id_tarefa,atualizacao,concluida):
     tzinfo = timezone(timedelta(hours=timezone_offset))
     hora_modificacao = datetime.now(tzinfo)
     lista.data_hora_modificacao = hora_modificacao
+    lista.responsavel_modificacao = request.user.nome_usuario
     lista.save()
 
     if atualizacao == 1:
@@ -322,6 +313,7 @@ def pullBancoListas(request):
             aux = {}
             aux["id"] = lista.id_lista
             aux["texto"] = lista.nome_descritivo
+            aux["criador"] = lista.fk_nome_usuario.nome_usuario
             aux["criacao"] = lista.data_hora_criacao
             aux["modificacao"] = lista.data_hora_modificacao
             aux["responsavel"] = lista.responsavel_modificacao

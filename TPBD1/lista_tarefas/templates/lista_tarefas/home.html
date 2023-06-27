@@ -17,6 +17,7 @@
         <div id="listas">
             <div class="lista" id="header_listas">
                 <tag>Nome da lista</tag>
+                <tag>Criador da lista</tag>
                 <tag>Data de criação</tag>
                 <tag>Data da última modificação</tag>
                 <tag>Responsável pela modificação</tag>
@@ -24,6 +25,7 @@
             {% for lista in listas %}
                 <a class="lista" href="{% url 'lista' id=lista.id_lista %}">
                     <tag>{{ lista.nome_descritivo }}</tag>
+                    <tag>{{ lista.fk_nome_usuario }}</tag>
                     <tag>{{ lista.data_hora_criacao|date:"d/m/Y H:i" }}</tag>
                     <tag>{{ lista.data_hora_modificacao|date:"d/m/Y H:i" }}</tag>
                     <tag>{{ lista.responsavel_modificacao }}</tag>

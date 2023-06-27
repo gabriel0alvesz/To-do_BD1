@@ -9,6 +9,7 @@ function criar_Lista(){
             this.alert("Lista criada sucesso!")
             texto = '<div class="lista" id="header_listas">'
             texto += '<tag>Nome da lista</tag>'
+            texto += '<tag>Criador da lista</tag>'
             texto += '<tag>Data de criação</tag>'
             texto += '<tag>Data da última modificação</tag>'
             texto += '<tag>Responsável pela modificação</tag></div>'
@@ -16,6 +17,7 @@ function criar_Lista(){
                 // Acessa os valores de cada item'
                 texto += '<a class="lista" href="lista/' + item.id + '">'
                 texto += '<tag>' + item.nome + '</tag>'
+                texto += '<tag>' + item.criador + '</tag>'
 
                 criacao = new Date(item.criacao)
                 a1 = criacao.getFullYear()
@@ -71,6 +73,7 @@ function pullBanco(){
         if(data.success == "True") {
             texto = '<div class="lista" id="header_listas">'
             texto += '<tag>Nome da lista</tag>'
+            texto += '<tag>Criador da lista</tag>'
             texto += '<tag>Data de criação</tag>'
             texto += '<tag>Data da última modificação</tag>'
             texto += '<tag>Responsável pela modificação</tag>'
@@ -80,6 +83,7 @@ function pullBanco(){
                     // Acessa os valores de cada item
                     texto += '<a class="lista" href="lista/' + lista.id + '">'
                     texto += '<tag>' + lista.texto + '</tag>'
+                    texto += '<tag>' + lista.criador + '</tag>'
                     
                     criacao = new Date(lista.criacao)
                     a1 = criacao.getFullYear()
