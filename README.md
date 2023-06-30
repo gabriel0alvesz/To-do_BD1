@@ -49,22 +49,19 @@ convidados.</li><br>
 <p align="justify">
   A partir do modelo lógico relacional obtido na Tarefa 02, escreva um script SQL para construção do esquema do banco de dados. Considere que será utilizado o SGBD MySQL para implantação da aplicação.
 </p>
-<p align="center">
-  <img src="">
+<p align="justify">
+  A implementação do esquema do banco está no arquivo: <b>to_do_script_vfinal.sql</b> 
 </p>
 
 # Tarefa 04.
 <p align="justify">
   Implemente a aplicação especificada acima de forma que ela faça uso do banco de dados construído na Tarefa 03. Pode ser criada uma aplicação de terminal ou uma aplicação com interface gráfica (desktop ou Web). Essa escolha ficará a cargo do grupo de trabalho. A linguagem de programação também deve ser determinada pelo grupo.
 </p>
-<p align="center">
-  Está no arquivo: 
-</p>
 
 # Tarefa 05.
 <p align="justify">
   Escreva um script SQL com todas as consultas utilizadas na implementação da aplicação.
 </p>
-<p align="center">
-  <img src="">
+<p align="justify">
+  As consultas utilizadas estão no arquivo: <b>to_do_script_funcoes_utilizadas.sql</b> 
 </p>
