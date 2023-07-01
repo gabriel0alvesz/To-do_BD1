@@ -34,7 +34,7 @@ convidados.</li><br>
   Dada a especificação da aplicação acima, realize a modelagem conceitual, gerando como resultado um Diagrama Entidade Relacionamento (DER).
 </p>
 <p align="center">
-  <img src="">
+  <img src="imgs/DER.png">
 </p>
 
 # Tarefa 02.
@@ -42,7 +42,7 @@ convidados.</li><br>
   A partir do DER obtido na Tarefa 01, utilize as regras de mapeamento DER/Relacional para construção do modelo lógico relacional.
 </p>
 <p align="center">
-  <img src="">
+  <img src="imgs/logico.png">
 </p>
 
 # Tarefa 03.
