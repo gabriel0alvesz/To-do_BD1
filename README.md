@@ -1,3 +1,35 @@
+
+# Execução 
+
+É necessário possuir o Python versão 3.10 ou superior e o MySQL instalado.
+
+* Recomenda-se criar um ambiente virtual ***venv***.
+
+````
+$ pip install -r requirements.txt
+````
+
+* Execute todas as querys do arquivo ```to_do_script_vfinal.sql``` no MySQL.
+
+* Acesse o arquivo ```settings.py``` localizado em *```TPBD1/TPBD1/settings.py```* e modififique as linhas **81** e **82** para os respectivos **USER** e **PASSWORD** utilizados em seu MySQL.
+    *  Recomendamos não acessar pelo usuário root do MySQL, crie um novo usuário e conceda-lhe os privilégio necessários.
+
+* Entre no repositório ```/TPBD1``` e rode os comandos: 
+````
+$ python manage.py makemigrations
+````
+
+````
+$ python manage.py make migrate
+````
+
+* Agora rode a aplicação com o comando:
+````
+$ python manage.py runserver
+````
+
+* Abra o navegador e entre na url **```http://127.0.0.1:8000```**
+
 # Descrição (Lista de Tarefas Compartilhada)
 <p align="justify">
   Uma lista de tarefas é uma ferramenta poderosa e versátil que oferece uma variedade de funcionalidades para ajudar os usuários a gerenciar suas tarefas de forma eficiente. Dessa forma, você e seus colegas, decidiram utilizar uma lista de tarefas compartilhada para que, além de cada um poder organizar as suas próprias tarefas, vocês também pudessem editar listas de tarefas compartilhada entre vocês para se organizarem em relação a atividades em grupo, como tarefas na universidade e estágio.
@@ -65,3 +97,5 @@ convidados.</li><br>
 <p align="justify">
   As consultas utilizadas estão no arquivo: <b>to_do_script_funcoes_utilizadas.sql</b> 
 </p>
+
+
