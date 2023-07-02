@@ -20,7 +20,7 @@ $ python manage.py makemigrations
 ````
 
 ````
-$ python manage.py make migrate
+$ python manage.py migrate
 ````
 
 * Agora rode a aplicação com o comando:
