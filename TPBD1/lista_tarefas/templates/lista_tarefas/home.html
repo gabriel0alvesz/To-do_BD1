@@ -44,9 +44,23 @@
         </div>
     {% else %}
         <div class="container">
-            <div class="mini_container"><span class="texto">Usuários:</span><span class="numero">{{usuarios}}</span></div>
-            <div class="mini_container"><span class="texto">Listas:</span><span class="numero">{{listas}}</span></div>
-            <div class="mini_container"><span class="texto">Tarefas:</span><span class="numero">{{tarefas}}</span></div>
+            <h1>Bem-vindo ao nosso site de listagem de tarefas</h1>
+            <p>Comece a organizar suas tarefas de forma fácil e eficiente!</p>
+            <div class="data-container">
+                <div class="data-item">
+                    <h2>Usuários Registrados</h2>
+                    <p>{{ usuarios }}</p>
+                </div>
+                <div class="data-item">
+                    <h2>Listas de Tarefas</h2>
+                    <p>{{ listas }}</p>
+                </div>
+                <div class="data-item">
+                    <h2>Tarefas Registradas</h2>
+                    <p>{{ tarefas }}</p>
+                </div>
+            </div>
+            <a href="{% url 'registrar' %}" class="register-button">Registrar-se agora</a>
         </div>
     {% endif %}
 {% endblock %}
