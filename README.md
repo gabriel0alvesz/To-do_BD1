@@ -1,4 +1,3 @@
-
 # Execução 
 
 É necessário possuir o Python versão 3.10 ou superior e o MySQL instalado.
